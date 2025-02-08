@@ -6,8 +6,8 @@ const NodeCache = require("node-cache");
 const otpCache = new NodeCache({ stdTTL: 300 });
 require("dotenv").config();
 const mail_host = process.env.MAIL_HOST;
-const mail_user = process.env.MAIL_USER;
-const mail_pass = process.env.MAIL_PASS;
+const mail_user = process.env.MAIL_CM_USER;
+const mail_pass = process.env.MAIL_CM_PASS;
 const mail_port = process.env.MAIL_PORT;
 
 const transporter = nodemailer.createTransport({

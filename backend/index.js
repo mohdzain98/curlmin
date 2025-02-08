@@ -8,7 +8,7 @@ connectToMongo();
 syncDB();
 
 const app = express();
-const port = 5000;
+const port = 5006;
 
 app.use(cors());
 app.use(express.json());
