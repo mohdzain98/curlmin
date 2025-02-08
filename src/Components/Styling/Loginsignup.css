@@ -1,0 +1,42 @@
+/* Custom styles for the login page */
+#login .form-control:focus,
+#login .form-check-input:focus {
+    box-shadow: none;
+    border-color: #0d6efd;
+}
+
+#login .form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+#login .input-group-text {
+    cursor: pointer;
+}
+
+#login .btn-primary:focus {
+    box-shadow: none;
+}
+
+/* Background pattern */
+#login .bg-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1)),
+        linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.1) 75%, rgba(255, 255, 255, 0.1));
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+}
+
+.error-message {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border:solid 1px;
+    border-radius: 4px;
+    font-size: 14px;
+}
