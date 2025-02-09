@@ -18,6 +18,7 @@ const upload = multer({ storage: storage });
 
 router.post("/createurl", async (req, res) => {
   const { userId, longUrl, pass, passval, expiryDate } = req.body;
+  console.log(expiryDate);
   // Validate input
   if (!longUrl) {
     return res.status(400).json({ error: "longUrl is required." });

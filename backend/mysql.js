@@ -1,15 +1,15 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 const db = process.env.MYSQL_DB;
-const dbname = process.env.MYSQL_DB_NAME;
+const uname = process.env.MYSQL_UNAME;
 const pass = process.env.MYSQL_PASS;
 const host = process.env.MYSQL_HOST;
 
-const sequelize = new Sequelize(db, dbname, pass, {
+const sequelize = new Sequelize(db, uname, pass, {
   host: host,
   dialect: "mysql", // Specify the database dialect
   logging: false,
-  timezone: "+05:30",
+  timezone: "+00:00", // UTC for ubuntu server
 });
 
 sequelize

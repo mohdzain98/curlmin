@@ -75,6 +75,10 @@ const UserState = (props) => {
 
   const verifyCaptcha = async (token) => {
     try {
+      if (!token) {
+        showAlert("Captcha is not verified", "danger");
+        return { stat: false, msg: "No token provided" };
+      }
       const response = await fetch(`${host}/auth/checkcaptcha`, {
         method: "POST",
         headers: {

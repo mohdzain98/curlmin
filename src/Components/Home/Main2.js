@@ -59,13 +59,27 @@ const Main2 = (props) => {
         exdate.setHours(exdate.getHours() + hoursToAdd);
       }
 
-      const pad = (num) => String(num).padStart(2, "0");
-      const year = exdate.getFullYear();
-      const month = pad(exdate.getMonth() + 1);
-      const day = pad(exdate.getDate());
-      const hours = pad(exdate.getHours());
-      const minutes = pad(exdate.getMinutes());
-      const seconds = pad(exdate.getSeconds());
+      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const options = {
+        timeZone: userTimeZone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      };
+
+      const formatter = new Intl.DateTimeFormat("en-GB", options);
+      const parts = formatter.formatToParts(exdate);
+
+      const year = parts.find((p) => p.type === "year").value;
+      const month = parts.find((p) => p.type === "month").value;
+      const day = parts.find((p) => p.type === "day").value;
+      const hours = parts.find((p) => p.type === "hour").value;
+      const minutes = parts.find((p) => p.type === "minute").value;
+      const seconds = parts.find((p) => p.type === "second").value;
 
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
@@ -116,7 +130,7 @@ const Main2 = (props) => {
     setUrl("");
     setPassval("");
     setPass(false);
-    setTime(12);
+    setTime("per");
     setIsChecked(false);
     setIsLoading(false);
   };
@@ -126,7 +140,6 @@ const Main2 = (props) => {
       navigator.clipboard.writeText(surlval);
       showAlert("copied successfully", "success");
     } catch (error) {
-      // console.log(error);
       showAlert("error occurred in copying", "danger");
     }
   };

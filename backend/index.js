@@ -13,19 +13,19 @@ const port = 5006;
 app.use(cors());
 app.use(express.json());
 
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/url", require("./routes/core"));
-app.use("/api/mail", require("./routes/mail"));
-app.use("/api/user", require("./routes/user"));
-app.use("/api/resolve", require("./routes/redirect"));
+app.use("/auth", require("./routes/auth"));
+app.use("/url", require("./routes/core"));
+app.use("/mail", require("./routes/mail"));
+app.use("/user", require("./routes/user"));
+app.use("/resolve", require("./routes/redirect"));
 
 app.use("/", (req, res) => {
   return res.json({
-    message: "Wecome to sigmaurl backend",
+    message: "Wecome to curlmin backend",
     version: "1.0",
   });
 });
 
 app.listen(port, () => {
-  console.log("sigmaurl backend Running Successfully on port ***1");
+  console.log("curlmin backend Running Successfully on port ***1");
 });

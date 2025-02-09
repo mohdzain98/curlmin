@@ -37,7 +37,6 @@ const Login = (props) => {
 
     if (s || id) {
       setSearchParams({ s: s, id: id });
-      console.log("login", s, id);
     }
   }, [location]);
 
@@ -68,7 +67,6 @@ const Login = (props) => {
       const json = await result.json();
       if (json.success) {
         if (searchParams.s !== "") {
-          console.log("inside searchparams if", searchParams, json.userId);
           await updateUserId(searchParams.s, json.userId, searchParams.id);
         }
         //save the token and redirect
@@ -111,6 +109,12 @@ const Login = (props) => {
       return;
     }
     const reply = await verifyCaptcha(token);
+    if (!reply) {
+      captchaRef.current.reset();
+      setCaptcha(false);
+      setLoader(false);
+      return;
+    }
     if (reply.status === 500) {
       showAlert("There is an Error accessing Server", "danger");
     } else {
@@ -132,7 +136,6 @@ const Login = (props) => {
           const json = await response.json();
           if (json.success) {
             if (searchParams.s !== "") {
-              console.log("inside searchparams if", searchParams, json.userId);
               await updateUserId(searchParams.s, json.userId, searchParams.id);
             }
             //save the token and redirect
