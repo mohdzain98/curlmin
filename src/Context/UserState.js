@@ -93,7 +93,14 @@ const UserState = (props) => {
     }
   };
 
-  const createShortUrl = async (userId, url, pass, passval, formattedDate) => {
+  const createShortUrl = async (
+    userId,
+    url,
+    pass,
+    passval,
+    creationdate,
+    formattedDate
+  ) => {
     try {
       const resp = await fetch(`${host}/url/createurl`, {
         method: "POST",
@@ -105,6 +112,7 @@ const UserState = (props) => {
           longUrl: url,
           pass: pass,
           passval: passval,
+          creationDate: creationdate,
           expiryDate: formattedDate,
         }),
       });

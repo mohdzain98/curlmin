@@ -9,7 +9,6 @@ const sequelize = new Sequelize(db, uname, pass, {
   host: host,
   dialect: "mysql", // Specify the database dialect
   logging: false,
-  timezone: "+00:00", // UTC for ubuntu server
 });
 
 sequelize

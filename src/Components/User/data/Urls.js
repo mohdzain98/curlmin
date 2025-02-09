@@ -63,7 +63,7 @@ const Urls = (props) => {
       //   second: "2-digit",
       hour12: false,
     };
-    return new Date(dateTime).toLocaleString("en-US", options);
+    return givenDate.toLocaleString("en-US", options);
   };
 
   const extractDomainName = (url) => {

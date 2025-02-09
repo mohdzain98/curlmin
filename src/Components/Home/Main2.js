@@ -33,13 +33,27 @@ const Main2 = (props) => {
     document.title = "curlmin | Short, Share and Track your Urls";
   }, []);
 
+  const creationDate = () => {
+    const cDate = new Date();
+
+    const pad = (num) => String(num).padStart(2, "0");
+    const year = cDate.getFullYear();
+    const month = pad(cDate.getMonth() + 1);
+    const day = pad(cDate.getDate());
+    const hours = pad(cDate.getHours());
+    const minutes = pad(cDate.getMinutes());
+    const seconds = pad(cDate.getSeconds());
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
   const expiryDate = () => {
     if (!time) {
       showAlert("Time is not defined or empty", "danger");
       return 0;
     }
     if (time === "per") {
-      return "9999-12-31 23:59:59";
+      return "9999-12-31 23:53:59";
     } else {
       const selectedOption = time.toString();
       const currentDate = new Date();
@@ -58,28 +72,35 @@ const Main2 = (props) => {
         const hoursToAdd = parseInt(selectedOption);
         exdate.setHours(exdate.getHours() + hoursToAdd);
       }
+      // const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      // const options = {
+      //   timeZone: userTimeZone,
+      //   year: "numeric",
+      //   month: "2-digit",
+      //   day: "2-digit",
+      //   hour: "2-digit",
+      //   minute: "2-digit",
+      //   second: "2-digit",
+      //   hour12: false,
+      // };
 
-      const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const options = {
-        timeZone: userTimeZone,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      };
+      // // const formatter = new Intl.DateTimeFormat("en-GB", options);
+      // // const parts = formatter.formatToParts(exdate);
 
-      const formatter = new Intl.DateTimeFormat("en-GB", options);
-      const parts = formatter.formatToParts(exdate);
+      // // const year = parts.find((p) => p.type === "year").value;
+      // // const month = parts.find((p) => p.type === "month").value;
+      // // const day = parts.find((p) => p.type === "day").value;
+      // // const hours = parts.find((p) => p.type === "hour").value;
+      // // const minutes = parts.find((p) => p.type === "minute").value;
+      // // const seconds = parts.find((p) => p.type === "second").value;
 
-      const year = parts.find((p) => p.type === "year").value;
-      const month = parts.find((p) => p.type === "month").value;
-      const day = parts.find((p) => p.type === "day").value;
-      const hours = parts.find((p) => p.type === "hour").value;
-      const minutes = parts.find((p) => p.type === "minute").value;
-      const seconds = parts.find((p) => p.type === "second").value;
+      const pad = (num) => String(num).padStart(2, "0");
+      const year = exdate.getFullYear();
+      const month = pad(exdate.getMonth() + 1);
+      const day = pad(exdate.getDate());
+      const hours = pad(exdate.getHours());
+      const minutes = pad(exdate.getMinutes());
+      const seconds = pad(exdate.getSeconds());
 
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
@@ -100,6 +121,8 @@ const Main2 = (props) => {
       setLoader("spinner-border spinner-border-sm ms-2");
       setIsLoading(true);
       const formattedDate = expiryDate();
+      const creationdate = creationDate();
+      console.log(creationdate, formattedDate);
       if (!formattedDate) {
         showAlert("Failed to calculate expiry date", "danger");
         return;
@@ -109,6 +132,7 @@ const Main2 = (props) => {
         url,
         pass,
         passval,
+        creationdate,
         formattedDate
       );
       if (data) {
@@ -140,6 +164,7 @@ const Main2 = (props) => {
       navigator.clipboard.writeText(surlval);
       showAlert("copied successfully", "success");
     } catch (error) {
+      // console.log(error);
       showAlert("error occurred in copying", "danger");
     }
   };
