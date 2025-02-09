@@ -193,7 +193,7 @@ router.post("/checkcaptcha", async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ stat, msg: "Some Error Occurred verifying captcha" });
+      .json({ stat, msg: "Some error occuured verifying captcha" });
   }
 });
 

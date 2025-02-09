@@ -72,27 +72,6 @@ const Main2 = (props) => {
         const hoursToAdd = parseInt(selectedOption);
         exdate.setHours(exdate.getHours() + hoursToAdd);
       }
-      // const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      // const options = {
-      //   timeZone: userTimeZone,
-      //   year: "numeric",
-      //   month: "2-digit",
-      //   day: "2-digit",
-      //   hour: "2-digit",
-      //   minute: "2-digit",
-      //   second: "2-digit",
-      //   hour12: false,
-      // };
-
-      // // const formatter = new Intl.DateTimeFormat("en-GB", options);
-      // // const parts = formatter.formatToParts(exdate);
-
-      // // const year = parts.find((p) => p.type === "year").value;
-      // // const month = parts.find((p) => p.type === "month").value;
-      // // const day = parts.find((p) => p.type === "day").value;
-      // // const hours = parts.find((p) => p.type === "hour").value;
-      // // const minutes = parts.find((p) => p.type === "minute").value;
-      // // const seconds = parts.find((p) => p.type === "second").value;
 
       const pad = (num) => String(num).padStart(2, "0");
       const year = exdate.getFullYear();
@@ -122,7 +101,7 @@ const Main2 = (props) => {
       setIsLoading(true);
       const formattedDate = expiryDate();
       const creationdate = creationDate();
-      console.log(creationdate, formattedDate);
+      const isPermanent = time === "per";
       if (!formattedDate) {
         showAlert("Failed to calculate expiry date", "danger");
         return;
@@ -133,7 +112,8 @@ const Main2 = (props) => {
         pass,
         passval,
         creationdate,
-        formattedDate
+        formattedDate,
+        isPermanent
       );
       if (data) {
         showAlert(data.message, "success");

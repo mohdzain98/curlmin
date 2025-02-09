@@ -208,8 +208,7 @@ const Urls = (props) => {
                         Expires at
                       </p>
                       <p style={{ fontSize: "13px" }}>
-                        {formatDateTime(url.expiryDate, true) ===
-                        "Dec 31, 9998, 23:59"
+                        {url.isPermanent
                           ? "Permanent"
                           : formatExpiry(url.expiryDate)}
                       </p>

@@ -40,6 +40,10 @@ const URL = sequelize.define(
       type: DataTypes.DATE,
       allowNull: true,
     },
+    isPermanent: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
   },
   {
     tableName: "urls",

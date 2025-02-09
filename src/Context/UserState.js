@@ -99,7 +99,8 @@ const UserState = (props) => {
     pass,
     passval,
     creationdate,
-    formattedDate
+    formattedDate,
+    isPermanent
   ) => {
     try {
       const resp = await fetch(`${host}/url/createurl`, {
@@ -114,6 +115,7 @@ const UserState = (props) => {
           passval: passval,
           creationDate: creationdate,
           expiryDate: formattedDate,
+          isPermanent: isPermanent,
         }),
       });
       if (resp.status === 500) {
