@@ -65,6 +65,19 @@ const Urls = (props) => {
     };
     return givenDate.toLocaleString("en-US", options);
   };
+  const formatExpiry = (date) => {
+    const dates = new Date(date);
+    const manual = dates.toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "UTC",
+    });
+    return manual;
+  };
 
   const extractDomainName = (url) => {
     // eslint-disable-next-line
@@ -198,7 +211,7 @@ const Urls = (props) => {
                         {formatDateTime(url.expiryDate, true) ===
                         "Dec 31, 9999, 23:59"
                           ? "Permanent"
-                          : formatDateTime(url.expiryDate, true)}
+                          : formatExpiry(url.expiryDate)}
                       </p>
                     </div>
                   </div>
