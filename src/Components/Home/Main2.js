@@ -53,7 +53,7 @@ const Main2 = (props) => {
       return 0;
     }
     if (time === "per") {
-      return "9999-12-31 23:53:59";
+      return "9998-12-31 23:59:59";
     } else {
       const selectedOption = time.toString();
       const currentDate = new Date();
