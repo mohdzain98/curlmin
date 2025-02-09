@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
+require("dotenv").config();
 const URL = require("../models/Url");
 const Subc = require("../models/Subc");
 const Sust = require("../models/Sust");
@@ -12,9 +13,9 @@ const { loadImage } = require("canvas");
 const multer = require("multer");
 const { gsnap, gsnap2 } = require("../functions/Functions");
 const eventEmitter = require("../eventEmitter");
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const path = process.env.ASSETS_PATH;
 
 router.post("/createurl", async (req, res) => {
   const {
@@ -68,7 +69,8 @@ router.post("/createqr", async (req, res) => {
   let { userId, url, amount } = req.body;
   const uid = nanoid(6);
   const name = `${uid}_${Date.now()}.png`;
-  const filePath = `../public/UserAssets/qrcodes/${name}`;
+  const filePath = `${path}/qrcodes/${name}`;
+
   try {
     if (!url) {
       return res.status(400).json({ error: "URL is required" });
@@ -108,7 +110,6 @@ router.post("/createqr", async (req, res) => {
     }
     res.json({ shortUrl, nuid, qrCode, msg: "QR Code Generated Successfully" });
   } catch (error) {
-    console.error("Error generating QR code:", error);
     if (fs.existsSync(filePath)) {
       fs.unlink(filePath, (err) => {
         if (err) {
@@ -123,8 +124,8 @@ router.post("/createqr", async (req, res) => {
 });
 
 router.post("/create-barcode", async (req, res) => {
-  const { userId, data, path } = req.body;
-  const filePath = `../public/UserAssets/barcodes/${path}`;
+  const { userId, data, name } = req.body;
+  const filePath = `${path}/barcodes/${name}`;
 
   if (!data) {
     return res
@@ -216,7 +217,7 @@ router.post("/save-barcode", async (req, res) => {
       longUrl: longUrl,
       filePath: name,
     });
-    const shortUrl = `https://surls.in/${nuid}`;
+    const shortUrl = `https://curlm.in/${nuid}`;
 
     res.status(200).json({
       message: "URL shortened successfully!",
@@ -246,7 +247,7 @@ router.post("/save-sigmatag", async (req, res) => {
       longUrl: longUrl,
       filePath: name,
     });
-    const shortUrl = `https://surls.in/${nuid}`;
+    const shortUrl = `https://curlm.in/${nuid}`;
 
     res.status(200).json({
       message: "URL shortened successfully!",
@@ -267,8 +268,7 @@ router.post("/createst", upload.single("image"), async (req, res) => {
     const url = req.body.url;
     const type = req.body.type;
     const name = req.body.name;
-    // const filePath = `./UserAssets/curltags/${name}`;
-    const filePath = `../public/UserAssets/curltags/${name}`;
+    const filePath = `${path}/curltags/${name}`;
 
     if (type === 1 && !url) {
       return res.status(400).send("URL is required.");

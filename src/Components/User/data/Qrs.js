@@ -97,7 +97,7 @@ const Qrs = (props) => {
                 <div className="card-body d-flex flex-column">
                   <div className="d-flex flex-row gap-2">
                     <img
-                      src={`${process.env.PUBLIC_URL}/UserAssets/qrcodes/${qr.filePath}`}
+                      src={`/UserAssets/qrcodes/${qr.filePath}`}
                       alt="qr"
                       className="img-fluid border p-1 rounded shadow-sm"
                       style={{ width: "100px", height: "100px" }}

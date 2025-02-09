@@ -13,7 +13,7 @@ const BarcodeScanner = () => {
       results[0].codeResult.code
     ) {
       if (!pageOpened.current) {
-        const url = `https://surls.in/${encodeURIComponent(
+        const url = `https://curlm.in/${encodeURIComponent(
           results[0].codeResult.code
         )}`;
         window.open(url, "barcodeWindow");

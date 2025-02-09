@@ -56,7 +56,7 @@ const Barcode = (props) => {
         body: JSON.stringify({
           userId,
           data: opval === 1 ? savebc.shortUrl : savebc.nuid,
-          path: savebc.name,
+          name: savebc.name,
         }),
       });
 

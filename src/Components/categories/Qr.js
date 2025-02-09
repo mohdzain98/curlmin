@@ -124,7 +124,6 @@ const Qr = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("running handlesubmit");
     if (!qr) {
       await generateQRCode();
     } else {
