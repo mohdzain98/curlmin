@@ -62,9 +62,11 @@ const Urls = (props) => {
       minute: "2-digit",
       //   second: "2-digit",
       hour12: false,
+      timeZone: "UTC",
     };
     return givenDate.toLocaleString("en-US", options);
   };
+
   const formatExpiry = (date) => {
     const dates = new Date(date);
     const manual = dates.toLocaleString("en-US", {
