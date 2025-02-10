@@ -347,7 +347,7 @@ const Main2 = (props) => {
                 >
                   <option value="per">Default Permanent</option>
                   <option value="12">12 Hours</option>
-                  <option value="20min">20 Minutes</option>
+                  <option value="2min">2 Minutes</option>
                   <option value="24">24 Hours</option>
                   <option value="48">48 Hours</option>
                   <option value="7d">7 Days</option>

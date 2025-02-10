@@ -10,6 +10,7 @@ const UserCounts = require("../models/Urlcount");
 const eventEmitter = require("../eventEmitter");
 const bcrypt = require("bcryptjs");
 const { sequelize } = require("../mysql");
+const fpath = process.env.ASSETS_PATH;
 
 const deleteFromFolder = async (filePath) => {
   if (fs.existsSync(filePath)) {
@@ -143,7 +144,8 @@ router.delete("/deleteurl/:uid", async (req, res) => {
 router.delete("/deleteqr/:uid", async (req, res) => {
   const { uid } = req.params;
   const { userId, path } = req.body;
-  const filePath = `../public/UserAssets/qrcodes/${path}`;
+  const filePath = `${fpath}/qrcodes/${path}`;
+
   try {
     const url = await Cmqr.findOne({ where: { uid } });
     if (!url) {
@@ -166,8 +168,8 @@ router.delete("/deleteqr/:uid", async (req, res) => {
 router.delete("/deletect/:uid", async (req, res) => {
   const { uid } = req.params;
   const { userId, path } = req.body;
-  // const filePath = `./UserAssets/curltags/${path}`;
-  const filePath = `../public/UserAssets/curltags/${path}`;
+  const filePath = `${fpath}/curltags/${path}`;
+
   try {
     const url = await Sust.findOne({ where: { uid } });
     if (!url) {
@@ -194,8 +196,8 @@ router.delete("/deletect/:uid", async (req, res) => {
 router.delete("/deletebc/:uid", async (req, res) => {
   const { uid } = req.params;
   const { userId, path } = req.body;
-  // const filePath = `./UserAssets/curltags/${path}`;
-  const filePath = `../public/UserAssets/barcodes/${path}`;
+  const filePath = `${fpath}/barcodes/${path}`;
+
   try {
     const url = await Subc.findOne({ where: { uid } });
     if (!url) {
@@ -276,7 +278,6 @@ router.post("/checkpass", async (req, res) => {
 
 router.delete("/delete-user", async (req, res) => {
   const { userId } = req.body;
-  console.log("backend", userId);
   try {
     const deletedUser = await User.findOneAndDelete({ _id: userId });
     if (!deletedUser) {
@@ -294,27 +295,21 @@ router.delete("/delete-user", async (req, res) => {
         if (data.qrCount > 0) {
           const qrs = await Cmqr.findAll({ where: { userId } });
           for (const item of qrs) {
-            await deleteFromFolder(
-              `../public/UserAssets/qrcodes/${item.filePath}`
-            );
+            await deleteFromFolder(`${fpath}/qrcodes/${item.filePath}`);
           }
           await Cmqr.destroy({ where: { userId }, transaction: t });
         }
         if (data.barcodeCount > 0) {
           const bcs = await Subc.findAll({ where: { userId } });
           for (const item of bcs) {
-            await deleteFromFolder(
-              `../public/UserAssets/barcodes/${item.filePath}`
-            );
+            await deleteFromFolder(`${fpath}/barcodes/${item.filePath}`);
           }
           await Subc.destroy({ where: { userId }, transaction: t });
         }
         if (data.curltagCount > 0) {
           const cts = await Sust.findAll({ where: { userId } });
           for (const item of cts) {
-            await deleteFromFolder(
-              `../public/UserAssets/curltags/${item.filePath}`
-            );
+            await deleteFromFolder(`${fpath}/curltags/${item.filePath}`);
           }
           await Sust.destroy({ where: { userId }, transaction: t });
         }
