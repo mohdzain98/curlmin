@@ -27,3 +27,4 @@ jobs:
             cd curlmin/curlmin
             git pull origin main
             git status
+            npm install
