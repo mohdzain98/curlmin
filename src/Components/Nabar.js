@@ -290,7 +290,7 @@ const Navbar = (props) => {
                   </h5>
                 </li>
                 <li>
-                  <hr class="dropdown-divider" />
+                  <hr className="dropdown-divider" />
                 </li>
                 <li className="mb-1">
                   <Link

@@ -158,27 +158,33 @@ const Snaptag = (props) => {
                   onChange={(e) => setUrl(e.target.value)}
                 />
                 <div className="d-flex justify-content-center mt-4 gap-3 flex-row flex-wrap">
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       value={opval}
                       onChange={() => setOpval(1)}
                       checked={opval === 1 ? true : false}
                     />
-                    <label class="form-check-label" for="exampleRadios1">
+                    <label
+                      className="form-check-label"
+                      htmlFor="exampleRadios1"
+                    >
                       No Background Image
                     </label>
                   </div>
-                  <div class="form-check">
+                  <div className="form-check">
                     <input
-                      class="form-check-input"
+                      className="form-check-input"
                       type="radio"
                       value={opval}
                       onChange={() => setOpval(2)}
                       checked={opval === 2 ? true : false}
                     />
-                    <label class="form-check-label" for="exampleRadios2">
+                    <label
+                      className="form-check-label"
+                      htmlFor="exampleRadios2"
+                    >
                       Upload Background Image
                     </label>
                   </div>
@@ -237,7 +243,9 @@ const Snaptag = (props) => {
                 </div>
               )} */}
             </div>
-            <div className="col-md-4 d-none d-lg-flex">
+            <div
+              className={`col-md-4 ${snaptagImage ? "" : "d-none d-lg-flex"}`}
+            >
               {snaptagImage ? (
                 <div className="text-center mt-4">
                   <img

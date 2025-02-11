@@ -6,7 +6,6 @@ const URL = require("../models/Url");
 const Subc = require("../models/Subc");
 const Sust = require("../models/Sust");
 const Cmqr = require("../models/Cmqr");
-const { nanoid } = require("nanoid");
 const QRCode = require("qrcode");
 const bwipjs = require("bwip-js");
 const { loadImage } = require("canvas");
@@ -15,6 +14,11 @@ const { gsnap, gsnap2 } = require("../functions/Functions");
 const eventEmitter = require("../eventEmitter");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const { customAlphabet } = require("nanoid");
+const nanoid = customAlphabet(
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+  6
+);
 const path = process.env.ASSETS_PATH;
 
 router.post("/createurl", async (req, res) => {

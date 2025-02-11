@@ -20,7 +20,6 @@ const Qr = (props) => {
 
   useEffect(() => {
     document.title = "curlmin | QR codes";
-    console.log("useffect one triggerred");
   }, []);
 
   useEffect(() => {
@@ -36,7 +35,6 @@ const Qr = (props) => {
       };
       img.src = qrCode;
     }
-    console.log("useffect 2 triggerred");
   }, [qrCode]);
 
   const isValidUPI = (input) => {
@@ -45,7 +43,6 @@ const Qr = (props) => {
   };
 
   const generateQRCode = async () => {
-    console.log("running generate qrcodde");
     if (!url) {
       const msg = isUrl
         ? "Please enter a valid URL"
@@ -102,7 +99,6 @@ const Qr = (props) => {
   };
 
   const downloadQRCode = () => {
-    console.log("running download qrcode");
     const canvas = qrRef.current;
     if (!canvas) return;
     const link = document.createElement("a");
@@ -114,7 +110,6 @@ const Qr = (props) => {
   };
 
   const handleQr = () => {
-    console.log("running handleqr");
     setQr(false);
     setUrl("");
     setAmount("");
