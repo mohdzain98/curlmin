@@ -15,6 +15,7 @@ const Urls = (props) => {
   const { userIdRef, deleteurl } = context;
   const userId = userIdRef.current;
   const ref = useRef();
+  const currentDate = new Date();
 
   useEffect(() => {
     // setLoading(true);
@@ -77,6 +78,19 @@ const Urls = (props) => {
       minute: "2-digit",
       hour12: false,
       timeZone: "UTC",
+    });
+    return manual;
+  };
+
+  const formatCurrent = (date) => {
+    const dates = new Date(date);
+    const manual = dates.toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
     });
     return manual;
   };
@@ -210,9 +224,14 @@ const Urls = (props) => {
                         Expires at
                       </p>
                       <p style={{ fontSize: "13px" }}>
-                        {url.isPermanent
-                          ? "Permanent"
-                          : formatExpiry(url.expiryDate)}
+                        {url.isPermanent ? (
+                          "Permanent"
+                        ) : formatExpiry(url.expiryDate) <=
+                          formatCurrent(currentDate) ? (
+                          <span className="text-danger">Expired</span>
+                        ) : (
+                          formatExpiry(url.expiryDate)
+                        )}
                       </p>
                     </div>
                   </div>
