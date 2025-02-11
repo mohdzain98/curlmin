@@ -8,4 +8,4 @@ Curlmin is an advanced URL shortening and management platform designed to make s
  - ✅ QR & Barcode Generation – Create scannable codes for easy access and sharing.
  - ✅ Curltags - New form of QR with better appealing with backgroung images.
 
-visit : <a href="https://curlmin.com" target="_blank">curlmin.com</>
+visit : <a href="https://curlmin.com" target="_blank">curlmin.com</a>
