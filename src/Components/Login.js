@@ -19,6 +19,7 @@ const Login = (props) => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [searchParams, setSearchParams] = useState({ s: "", id: "" });
+  const google_login = process.env.REACT_APP_GOOGLE_USER;
 
   useEffect(() => {
     document.title = "curlmin | login";
@@ -40,16 +41,13 @@ const Login = (props) => {
     }
   }, [location]);
 
-  const googleLogin = async (token) => {
-    const response = await fetch(
-      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-        },
-      }
-    );
+  const googleLogin = async (a_token) => {
+    const response = await fetch(`${google_login}?access_token=${a_token}`, {
+      headers: {
+        Authorization: `Bearer ${a_token}`,
+        Accept: "application/json",
+      },
+    });
     const data = await response.json();
     const email = await data.email;
     setGLoader("spinner-border spinner-border-sm mt-2");
@@ -315,55 +313,52 @@ const Login = (props) => {
                   Sign Up
                 </Link>
               </p>
-
-              {/* Social Login */}
-              <div className="mb-4">
-                <div className="d-flex align-items-center mb-3">
-                  <hr className="flex-grow-1" />
-                  <span className="mx-3 text-muted small">
-                    Or continue with
-                  </span>
-                  <hr className="flex-grow-1" />
-                </div>
-
-                <div className="row g-3">
-                  <div className="col">
-                    <button
-                      className="btn btn-outline-light border w-100 d-flex align-items-center justify-content-center gap-2 text-dark"
-                      onClick={login}
-                    >
-                      <img
-                        src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg"
-                        alt="Google"
-                        style={{ width: "18px" }}
-                      />
-                      Google
-                    </button>
-                    <center>
-                      <span
-                        className={gloader}
-                        role="status"
-                        aria-hidden="true"
-                      ></span>
-                    </center>
-                  </div>
-                </div>
-              </div>
-
-              {/* Terms and Privacy */}
-              <div className="text-center">
-                <small className="text-muted">
-                  By continuing, you agree to our{" "}
-                  <Link to="/terms" className="text-decoration-none">
-                    Terms of Service
-                  </Link>{" "}
-                  and{" "}
-                  <Link to="/privacy-policy" className="text-decoration-none">
-                    Privacy Policy
-                  </Link>
-                </small>
-              </div>
             </form>
+            {/* Social Login */}
+            <div className="mb-4">
+              <div className="d-flex align-items-center mb-3">
+                <hr className="flex-grow-1" />
+                <span className="mx-3 text-muted small">Or continue with</span>
+                <hr className="flex-grow-1" />
+              </div>
+
+              <div className="row g-3">
+                <div className="col">
+                  <button
+                    className="btn btn-outline-light border w-100 d-flex align-items-center justify-content-center gap-2 text-dark"
+                    onClick={login}
+                  >
+                    <img
+                      src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg"
+                      alt="Google"
+                      style={{ width: "18px" }}
+                    />
+                    Google
+                  </button>
+                  <center>
+                    <span
+                      className={gloader}
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                  </center>
+                </div>
+              </div>
+            </div>
+
+            {/* Terms and Privacy */}
+            <div className="text-center">
+              <small className="text-muted">
+                By continuing, you agree to our{" "}
+                <Link to="/terms" className="text-decoration-none">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link to="/privacy-policy" className="text-decoration-none">
+                  Privacy Policy
+                </Link>
+              </small>
+            </div>
           </div>
         </div>
       </div>

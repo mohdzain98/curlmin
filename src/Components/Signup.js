@@ -34,6 +34,7 @@ const Signup = (props) => {
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const [searchParams, setSearchParams] = useState({ s: "", id: "" });
+  const google_signup = process.env.REACT_APP_GOOGLE_USER;
 
   useEffect(() => {
     document.title = "curlmin | signup";
@@ -57,15 +58,12 @@ const Signup = (props) => {
   }, [location]);
 
   const googleSignup = async (gtoken) => {
-    const response = await fetch(
-      `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${gtoken}`,
-      {
-        headers: {
-          Authorization: `Bearer ${gtoken}`,
-          Accept: "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${google_signup}?access_token=${gtoken}`, {
+      headers: {
+        Authorization: `Bearer ${gtoken}`,
+        Accept: "application/json",
+      },
+    });
     const data = await response.json();
     handleSubmit(data.name, data.email, data.id, data.id);
   };
@@ -428,48 +426,47 @@ const Signup = (props) => {
                     Sign In
                   </Link>
                 </p>
-
-                {/* Social Login */}
-                <div className="mb-4">
-                  <div className="d-flex align-items-center mb-3">
-                    <hr className="flex-grow-1" />
-                    <span className="mx-3 text-muted small">
-                      Or continue with
-                    </span>
-                    <hr className="flex-grow-1" />
-                  </div>
-
-                  <div className="row g-3">
-                    <div className="col">
-                      <button
-                        className="btn btn-outline-light border w-100 d-flex align-items-center justify-content-center gap-2 text-dark"
-                        onClick={signup}
-                      >
-                        <img
-                          src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg"
-                          alt="Google"
-                          style={{ width: "18px" }}
-                        />
-                        Google
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Terms and Privacy */}
-                <div className="text-center">
-                  <small className="text-muted">
-                    By continuing, you agree to our{" "}
-                    <Link to="/terms" className="text-decoration-none">
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link to="/privacy-policy" className="text-decoration-none">
-                      Privacy Policy
-                    </Link>
-                  </small>
-                </div>
               </form>
+              {/* Social Login */}
+              <div className="mb-4">
+                <div className="d-flex align-items-center mb-3">
+                  <hr className="flex-grow-1" />
+                  <span className="mx-3 text-muted small">
+                    Or continue with
+                  </span>
+                  <hr className="flex-grow-1" />
+                </div>
+
+                <div className="row g-3">
+                  <div className="col">
+                    <button
+                      className="btn btn-outline-light border w-100 d-flex align-items-center justify-content-center gap-2 text-dark"
+                      onClick={signup}
+                    >
+                      <img
+                        src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg"
+                        alt="Google"
+                        style={{ width: "18px" }}
+                      />
+                      Google
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Terms and Privacy */}
+              <div className="text-center">
+                <small className="text-muted">
+                  By continuing, you agree to our{" "}
+                  <Link to="/terms" className="text-decoration-none">
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link to="/privacy-policy" className="text-decoration-none">
+                    Privacy Policy
+                  </Link>
+                </small>
+              </div>
             </div>
             <button
               type="button"
