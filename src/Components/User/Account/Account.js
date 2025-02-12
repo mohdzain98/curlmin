@@ -6,7 +6,7 @@ import ChangePass from "./ChangePass";
 import Delete from "./Delete";
 
 const Account = (props) => {
-  const { showAlert, Logdin } = props.prop;
+  const { host, showAlert, Logdin } = props.prop;
   const [select, setSelect] = useState("details");
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsupdating] = useState(false);
@@ -70,7 +70,6 @@ const Account = (props) => {
       return;
     }
     const date = new Date(dateStr);
-    console.log("date is", date);
     const formattedDate = new Intl.DateTimeFormat("en-GB", {
       day: "2-digit",
       month: "short",
@@ -81,16 +80,13 @@ const Account = (props) => {
 
   const handleUpdate = async () => {
     setIsupdating(true);
-    const update = await fetch(
-      `http://localhost:5000/api/user/updatename/${userId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ name: name.nm }),
-      }
-    );
+    const update = await fetch(`${host}/user/updatename/${userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: name.nm }),
+    });
     if (update.status === 500) {
       showAlert("Internel server Error Occurred", "danger");
     } else {
@@ -189,6 +185,11 @@ const Account = (props) => {
                       </small>
                     </p>
                   </div>
+                  {/* <p className="text-muted" style={{ fontSize: "13px" }}>
+                    You created account via Google Signup, kindly update your
+                    passsword for manual Login from{" "}
+                    <Link to="/account?change-password&p=nf">here</Link>
+                  </p> */}
                 </div>
                 <div className="card-footer">
                   user type:

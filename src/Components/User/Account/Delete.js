@@ -13,7 +13,6 @@ const Delete = (props) => {
   const { userIdRef, updateUser } = context;
   const userId = userIdRef.current;
   const modal = useRef();
-  console.log(userId);
 
   useEffect(() => {
     if (userId) {

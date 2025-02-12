@@ -59,7 +59,6 @@ const Qrs = (props) => {
         showAlert(res.msg, "danger");
       }
     } catch (error) {
-      console.log(error);
       showAlert("Error accessing server", "danger");
     } finally {
       setDeloader(false);

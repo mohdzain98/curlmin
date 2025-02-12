@@ -23,6 +23,16 @@ const ChangePass = (props) => {
   const userId = userIdRef.current;
   const ref = useRef(null);
   const modalClose = useRef(null);
+  // const location = useLocation();
+
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search);
+  //   const p = params.get("p");
+  //   if (params.has("p") && p === "nf") {
+  //     setForgot(true);
+  //   }
+  //   // eslint-disable-next-line
+  // }, [location.search]);
 
   const onChange = (e) => {
     setPassval({ ...passval, [e.target.id]: e.target.value });
@@ -39,7 +49,6 @@ const ChangePass = (props) => {
     if (npass !== cmpass) {
       showAlert("New Password and Confirm Password Does not Match", "info");
       setCloader({ bool: false, val: 10 });
-      console.log(false);
       return false;
     }
     return true;
@@ -107,13 +116,13 @@ const ChangePass = (props) => {
     e.preventDefault();
     setOtpLoader(true);
     const otpUid = localStorage.getItem("curlmin-otp-id");
-    console.log(otpUid, otpval);
     const verifyOtp = await verifyEmail(otpUid, otpval);
     if (verifyOtp.success) {
       setForgot(true);
       modalClose.current.click();
       showAlert("OTP verified Successfully", "success");
       setOtpval("");
+      localStorage.removeItem("curlmin-otp-id");
     } else {
       setModalmsg(true);
       setTimeout(() => {

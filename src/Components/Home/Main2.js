@@ -30,7 +30,7 @@ const Main2 = (props) => {
   const userId = userIdRef.current === "" ? "default" : userIdRef.current;
 
   useEffect(() => {
-    document.title = "curlmin | Short, Share and Track your Urls";
+    document.title = "Curlmin | Short, Share and Track your Urls";
   }, []);
 
   const creationDate = () => {

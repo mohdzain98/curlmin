@@ -124,7 +124,7 @@ function App() {
               <Route
                 exact
                 path="/account"
-                element={<Account prop={{ showAlert, Logdin }} />}
+                element={<Account prop={{ host, showAlert, Logdin }} />}
               ></Route>
               <Route exact path="/terms" element={<Terms />}></Route>
             </Routes>
