@@ -394,7 +394,7 @@ const Signup = (props) => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="btn btn-primary btn-sm w-100 py-2 mb-4 d-flex align-items-center justify-content-center"
+                  className="btn btn-danger btn-sm w-100 py-2 mb-4 d-flex align-items-center justify-content-center"
                   disabled={
                     cred.name === "" ||
                     cred.email === "" ||
@@ -421,7 +421,7 @@ const Signup = (props) => {
                         ? `/login?s=${searchParams.s}&id=${searchParams.id}`
                         : "/login"
                     }
-                    className="text-decoration-none text-primary "
+                    className="text-decoration-none text-danger "
                   >
                     Sign In
                   </Link>
@@ -458,11 +458,17 @@ const Signup = (props) => {
               <div className="text-center">
                 <small className="text-muted">
                   By continuing, you agree to our{" "}
-                  <Link to="/terms" className="text-decoration-none">
+                  <Link
+                    to="/terms"
+                    className="text-decoration-none text-danger"
+                  >
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link to="/privacy-policy" className="text-decoration-none">
+                  <Link
+                    to="/privacy-policy"
+                    className="text-decoration-none text-danger"
+                  >
                     Privacy Policy
                   </Link>
                 </small>

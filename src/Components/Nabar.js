@@ -68,7 +68,12 @@ const Navbar = (props) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
       <div className="container">
-        <Link className="navbar-brand fw-bold text-primary" to="/">
+        <Link
+          className={`navbar-brand fw-bold ${
+            location.pathname === "/signup" ? "text-danger" : "text-primary"
+          }`}
+          to="/"
+        >
           curlmin
         </Link>
         <button
@@ -230,7 +235,9 @@ const Navbar = (props) => {
                     location.pathname === "/login" ? "none" : "initial"
                   }`,
                 }}
-                className="btn btn-outline-primary btn-sm mx-1"
+                className={`btn btn-outline-${
+                  location.pathname === "/signup" ? "danger" : "primary"
+                } btn-sm mx-1`}
                 role="button"
                 to={
                   searchParams.s !== ""
