@@ -1,5 +1,5 @@
 import React, { useRef, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userContext, userAccContext } from "../../../Context/userContext";
 
 const ChangePass = (props) => {
@@ -23,6 +23,7 @@ const ChangePass = (props) => {
   const userId = userIdRef.current;
   const ref = useRef(null);
   const modalClose = useRef(null);
+  const navigate = useNavigate();
   // const location = useLocation();
 
   // useEffect(() => {
@@ -69,12 +70,15 @@ const ChangePass = (props) => {
         showAlert("Password Changed Successfully", "success");
         setPassval({ cpass: "", npass: "", cmpass: "" });
         setForgot(false);
+        navigate("/account?details");
       } else {
         showAlert(
           "Password was not changed, kindly try again after some time",
           "danger"
         );
       }
+    } else {
+      showAlert("Current Password is incorrect", "danger");
     }
     setCloader({ bool: false, val: 100 });
   };
@@ -90,6 +94,7 @@ const ChangePass = (props) => {
     if (reply.success) {
       showAlert("Password Changed Successfully", "success");
       setPassval({ cpass: "", npass: "", cmpass: "" });
+      navigate("/account?details");
     } else {
       showAlert(
         "Password was not changed, kindly try again after some time",

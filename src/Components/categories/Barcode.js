@@ -263,8 +263,8 @@ const Barcode = (props) => {
                   Mobile-Friendly
                 </h3>
                 <p className="card-text text-muted">
-                  Easily scannable with any smartphone camera or barcode scanner
-                  app for instant website access.
+                  Easily scannable with our curlmin barcode scanner for instant
+                  website access.
                 </p>
               </div>
             </div>

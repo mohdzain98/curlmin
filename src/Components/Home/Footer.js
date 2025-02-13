@@ -68,18 +68,39 @@ const Footer = () => {
               </div>
               <div className="col-md-2">
                 <h4 className="h6 fw-semibold mb-3">Sections</h4>
-                <ul className="list-unstyled">
-                  <li>
-                    <Link to="/login" className=" text-decoration-none ">
-                      Login
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/signup" className=" text-decoration-none">
-                      Signup
-                    </Link>
-                  </li>
-                </ul>
+                {!localStorage.getItem("token") ? (
+                  <ul class="list-unstyled">
+                    <li>
+                      <Link to="/login" className=" text-decoration-none">
+                        Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/signup" className=" text-decoration-none">
+                        Signup
+                      </Link>
+                    </li>
+                  </ul>
+                ) : (
+                  <ul class="list-unstyled">
+                    <li>
+                      <Link
+                        to="/account?details"
+                        className=" text-decoration-none"
+                      >
+                        Account
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/urls?dashboard"
+                        className=" text-decoration-none"
+                      >
+                        URLs
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </div>
               <div className="col-md-2">
                 <h4 className="h6 fw-semibold mb-3">Support</h4>
@@ -220,18 +241,42 @@ const Footer = () => {
                     data-bs-parent="#footerAccordion"
                   >
                     <div class="accordion-body">
-                      <ul class="list-unstyled">
-                        <li>
-                          <Link to="/login" className=" text-decoration-none">
-                            Login
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/signup" className=" text-decoration-none">
-                            Signup
-                          </Link>
-                        </li>
-                      </ul>
+                      {!localStorage.getItem("token") ? (
+                        <ul class="list-unstyled">
+                          <li>
+                            <Link to="/login" className=" text-decoration-none">
+                              Login
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/signup"
+                              className=" text-decoration-none"
+                            >
+                              Signup
+                            </Link>
+                          </li>
+                        </ul>
+                      ) : (
+                        <ul class="list-unstyled">
+                          <li>
+                            <Link
+                              to="/account?details"
+                              className=" text-decoration-none"
+                            >
+                              Account
+                            </Link>
+                          </li>
+                          <li>
+                            <Link
+                              to="/urls?dashboard"
+                              className=" text-decoration-none"
+                            >
+                              URLs
+                            </Link>
+                          </li>
+                        </ul>
+                      )}
                     </div>
                   </div>
                 </div>

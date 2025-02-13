@@ -176,7 +176,7 @@ const Main2 = (props) => {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
-              <i
+              {/* <i
                 className="fa-solid fa-x fa-sm text-secondary"
                 style={{
                   position: "absolute",
@@ -186,7 +186,7 @@ const Main2 = (props) => {
                   cursor: "pointer",
                 }}
                 onClick={() => setUrl("")} // Clear the input on click
-              />
+              /> */}
             </div>
             {surl && (
               <div className="d-flex flex-row align-items-center flex-wrap">
