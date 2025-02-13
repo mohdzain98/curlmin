@@ -29,7 +29,7 @@ const Forgot = (props) => {
     e.preventDefault();
     setLoader("spinner-border spinner-border-sm m-2");
     setDisable(true);
-    const check = await fetch(`${host}/api/auth/existuser`, {
+    const check = await fetch(`${host}/auth/existuser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ const Forgot = (props) => {
       const uid = Cookies.get("uid");
       setLoader("spinned-border spinner-border-sm m-2");
       setDisable(true);
-      const resp = await fetch(`${host}/api/auth/updatepass/${uid}`, {
+      const resp = await fetch(`${host}/auth/updatepass/${uid}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
