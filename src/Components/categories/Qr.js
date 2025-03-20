@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
+import { useMediaQuery } from "react-responsive";
 import { userContext } from "../../Context/userContext";
 import "./Styling/qr.css";
 import { Link } from "react-router-dom";
+import Share from "../User/data/Share";
 
 const Qr = (props) => {
   const { host, showAlert } = props.prop;
@@ -11,11 +13,13 @@ const Qr = (props) => {
   const [qrCode, setQrCode] = useState("");
   const [qr, setQr] = useState(false);
   const [respUid, setResUid] = useState("");
+  const [share, setShare] = useState(false);
   const [isUrl, setIsUrl] = useState(true);
   const [amount, setAmount] = useState("");
   const qrRef = useRef(null);
   const context = useContext(userContext);
   const { userIdRef, isValidUrl } = context;
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const userId = userIdRef.current === "" ? "default" : userIdRef.current;
 
   useEffect(() => {
@@ -199,7 +203,11 @@ const Qr = (props) => {
                       onChange={(e) => setUrl(e.target.value)}
                     />
                   ) : (
-                    <div className="d-flex flex-row gap-2">
+                    <div
+                      className={`d-flex flex-${
+                        isTabletOrMobile ? "column" : "row"
+                      } gap-2`}
+                    >
                       <div className="flex-grow-1">
                         <input
                           type="text"
@@ -251,15 +259,23 @@ const Qr = (props) => {
                 </form>
                 {/* QR Code Result */}
                 {qrCode && (
-                  <div className="text-center mt-4">
+                  <div className="mt-3 mb-1 d-flex flex-column justify-content-center align-items-center">
                     <canvas ref={qrRef} className="img-fluid"></canvas>
-                    <div>
+                    <div className="d-flex flex-row align-items-center gap-2">
                       <button
                         className="btn btn-outline-primary"
                         onClick={downloadQRCode}
                       >
                         Download QR Code
                       </button>
+                      <button
+                        className="btn btn-outline-success"
+                        style={{ width: "100px" }}
+                        onClick={() => setShare(!share)}
+                      >
+                        <i className="fa-solid fa-share-nodes"></i>
+                      </button>
+                      {share && <Share prop={{ uid: respUid, ep: "qr" }} />}
                     </div>
                     {!localStorage.getItem("token") && (
                       <p

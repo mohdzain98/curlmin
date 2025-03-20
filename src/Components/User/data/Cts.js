@@ -2,10 +2,11 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { userContext, userAccContext } from "../../../Context/userContext";
 import { Link } from "react-router-dom";
 import "./userstyle.css";
+import Share from "./Share";
 
 const Cts = (props) => {
   const { showAlert } = props.prop;
-  // const [loading, setLoading] = useState(false);
+  const [shareQrId, setShareQrId] = useState(false);
   const [qr, setQr] = useState({ id: "", name: "", path: "" });
   const context = useContext(userContext);
   const accontext = useContext(userAccContext);
@@ -135,36 +136,60 @@ const Cts = (props) => {
                     </h5>
                   </div>
                   <div className="foot mt-auto">
-                    <button
-                      className="btn btn-default"
-                      onClick={() => downloadQRCode(qr.filePath)}
-                    >
-                      <i
-                        className="fa-solid fa-download fa-sm"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Download This QR"
-                      ></i>
-                    </button>
-                    <button
-                      className="btn btn-default"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      onClick={() =>
-                        setQr({
-                          id: qr.uid,
-                          name: extractDomainName(qr.longUrl),
-                          path: qr.filePath,
-                        })
-                      }
-                    >
-                      <i
-                        className="fa-solid fa-trash fa-sm"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Delete This QR"
-                      ></i>
-                    </button>
+                    <div className="d-flex flex-row align-items-center gap-1 mt-3">
+                      <div className="btn-group border">
+                        <button
+                          className="btn btn-light"
+                          onClick={() => downloadQRCode(qr.filePath)}
+                        >
+                          <i
+                            className="fa-solid fa-download fa-sm"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Download This Curltag"
+                          ></i>
+                        </button>
+                        <button
+                          className="btn btn-light"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          onClick={() =>
+                            setQr({
+                              id: qr.uid,
+                              name: extractDomainName(qr.longUrl),
+                              path: qr.filePath,
+                            })
+                          }
+                        >
+                          <i
+                            className="fa-solid fa-trash fa-sm"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Delete This Curltag"
+                          ></i>
+                        </button>
+                        <button
+                          className="btn btn-light"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Share This Curltag"
+                          onClick={() =>
+                            setShareQrId(shareQrId === qr.uid ? null : qr.uid)
+                          }
+                        >
+                          <i
+                            className={`fa-solid ${
+                              shareQrId === qr.uid
+                                ? "fa-square-share-nodes"
+                                : "fa-share-nodes"
+                            } `}
+                          ></i>
+                        </button>
+                      </div>
+                      {shareQrId === qr.uid && (
+                        <Share prop={{ uid: qr.uid, ep: "ct" }} />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

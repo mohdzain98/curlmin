@@ -298,7 +298,6 @@ const UserState = (props) => {
       showAlert("There is Error Accessing Server", "danger");
     }
   };
-
   return (
     <div>
       <userContext.Provider

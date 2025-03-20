@@ -92,14 +92,17 @@ router.post("/createqr", async (req, res) => {
     }
     // Generate QR code as base64
     const qrCode = await QRCode.toDataURL(url, {
-      width: 300,
+      width: 256,
       margin: 2,
       color: {
         dark: "#000000",
         light: "#ffffff",
       },
     });
-    await QRCode.toFile(filePath, url);
+    await QRCode.toFile(filePath, url, {
+      width: 256,
+      margin: 2,
+    });
     const nuid = "qr" + uid;
     const newBc = await Cmqr.create({
       userId: userId,

@@ -14,7 +14,6 @@ const Contactus = (props) => {
   const context = useContext(userContext);
   const { contact } = context;
   const to = process.env.REACT_APP_TO;
-  console.log(to);
 
   useEffect(() => {
     document.title = "curlmin | contact us";

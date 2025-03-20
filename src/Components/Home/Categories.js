@@ -38,7 +38,10 @@ const Categories = () => {
   return (
     <div className="px-4 py-5" id="qr">
       <div className="container my-5">
-        <h2 className="text-center fw-bold mb-5">More then just URL</h2>
+        <h2 className="text-center fw-bold mb-2">More then just URL</h2>
+        <p className="text-center text-muted fw-bold mb-5">
+          Share your QRs, Barcodes and Curltags with shorts URLs
+        </p>
         <div className="row">
           {categories.map((category, idx) => (
             <div

@@ -2,10 +2,11 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { userContext, userAccContext } from "../../../Context/userContext";
 import { Link } from "react-router-dom";
 import "./userstyle.css";
+import Share from "./Share";
 
 const Bcs = (props) => {
   const { showAlert } = props.prop;
-  // const [loading, setLoading] = useState(false);
+  const [shareQrId, setShareQrId] = useState(false);
   const [bc, setBc] = useState({ id: "", name: "", path: "" });
   const context = useContext(userContext);
   const accontext = useContext(userAccContext);
@@ -122,36 +123,60 @@ const Bcs = (props) => {
                     ></textarea>
                   </Link>
                   <div className="foot mt-auto">
-                    <button
-                      className="btn btn-default"
-                      onClick={() => downloadBarcode(bc.filePath)}
-                    >
-                      <i
-                        className="fa-solid fa-download fa-sm"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Download This Barcode"
-                      ></i>
-                    </button>
-                    <button
-                      className="btn btn-default"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      onClick={() =>
-                        setBc({
-                          id: bc.uid,
-                          name: extractDomainName(bc.longUrl),
-                          path: bc.filePath,
-                        })
-                      }
-                    >
-                      <i
-                        className="fa-solid fa-trash fa-sm"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Delete This Barcode"
-                      ></i>
-                    </button>
+                    <div className="d-flex flex-row align-items-center gap-1 mt-3">
+                      <div className="btn-group border">
+                        <button
+                          className="btn btn-light"
+                          onClick={() => downloadBarcode(bc.filePath)}
+                        >
+                          <i
+                            className="fa-solid fa-download fa-sm"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Download This Barcode"
+                          ></i>
+                        </button>
+                        <button
+                          className="btn btn-light"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          onClick={() =>
+                            setBc({
+                              id: bc.uid,
+                              name: extractDomainName(bc.longUrl),
+                              path: bc.filePath,
+                            })
+                          }
+                        >
+                          <i
+                            className="fa-solid fa-trash fa-sm"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Delete This Barcode"
+                          ></i>
+                        </button>
+                        <button
+                          className="btn btn-light"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Share This Barcode"
+                          onClick={() =>
+                            setShareQrId(shareQrId === bc.uid ? null : bc.uid)
+                          }
+                        >
+                          <i
+                            className={`fa-solid ${
+                              shareQrId === bc.uid
+                                ? "fa-square-share-nodes"
+                                : "fa-share-nodes"
+                            } `}
+                          ></i>
+                        </button>
+                      </div>
+                      {shareQrId === bc.uid && (
+                        <Share prop={{ uid: bc.uid, ep: "bc" }} />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

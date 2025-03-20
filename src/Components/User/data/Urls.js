@@ -2,11 +2,12 @@ import React, { useEffect, useState, useContext, useRef } from "react";
 import { Link } from "react-router-dom";
 import { userContext, userAccContext } from "../../../Context/userContext";
 import "./userstyle.css";
+import Share from "./Share";
 
 const Urls = (props) => {
   const { showAlert } = props.prop;
   const [url, setUrl] = useState({ id: "", name: "" });
-  // const [loading, setLoading] = useState(false);
+  const [shareQrId, setShareQrId] = useState(false);
   const [deloader, setDeloader] = useState(false);
   const [showPassword, setShowPassword] = useState("");
   const context = useContext(userContext);
@@ -235,25 +236,49 @@ const Urls = (props) => {
                     </div>
                   </div>
                   <div className="foot mt-auto">
-                    <button
-                      className="btn btn-default"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      onClick={() =>
-                        setUrl({
-                          id: url.uid,
-                          name: extractDomainName(url.longUrl) || url.uid,
-                        })
-                      }
-                      style={{ border: "none" }}
-                    >
-                      <i
-                        className="fa-solid fa-trash"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Delete This Url"
-                      ></i>
-                    </button>
+                    <div className="d-flex flex-row align-items-center gap-1 mt-3">
+                      <div className="btn-group border">
+                        <button
+                          className="btn btn-light"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          onClick={() =>
+                            setUrl({
+                              id: url.uid,
+                              name: extractDomainName(url.longUrl) || url.uid,
+                            })
+                          }
+                          style={{ border: "none" }}
+                        >
+                          <i
+                            className="fa-solid fa-trash fa-sm"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Delete This Url"
+                          ></i>
+                        </button>
+                        <button
+                          className="btn btn-light"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Share This URL"
+                          onClick={() =>
+                            setShareQrId(shareQrId === url.uid ? null : url.uid)
+                          }
+                        >
+                          <i
+                            className={`fa-solid ${
+                              shareQrId === url.uid
+                                ? "fa-square-share-nodes"
+                                : "fa-share-nodes"
+                            } `}
+                          ></i>
+                        </button>
+                      </div>
+                      {shareQrId === url.uid && (
+                        <Share prop={{ uid: url.uid, ep: "" }} />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

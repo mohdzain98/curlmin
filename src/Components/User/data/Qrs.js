@@ -2,10 +2,11 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { userContext, userAccContext } from "../../../Context/userContext";
 import { Link } from "react-router-dom";
 import "./userstyle.css";
+import Share from "./Share";
 
 const Qrs = (props) => {
   const { showAlert } = props.prop;
-  // const [loading, setLoading] = useState(false);
+  const [shareQrId, setShareQrId] = useState(false);
   const [qr, setQr] = useState({ id: "", name: "", path: "" });
   const context = useContext(userContext);
   const accontext = useContext(userAccContext);
@@ -156,36 +157,56 @@ const Qrs = (props) => {
                     </h5>
                   </div>
                   <div className="foot mt-auto">
-                    <button
-                      className="btn btn-default"
-                      onClick={() => downloadQRCode(qr.filePath)}
-                    >
-                      <i
-                        className="fa-solid fa-download fa-sm"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Download This QR"
-                      ></i>
-                    </button>
-                    <button
-                      className="btn btn-default"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal"
-                      onClick={() =>
-                        setQr({
-                          id: qr.uid,
-                          name: extractDomainName(qr.longUrl),
-                          path: qr.filePath,
-                        })
-                      }
-                    >
-                      <i
-                        className="fa-solid fa-trash fa-sm"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        title="Delete This QR"
-                      ></i>
-                    </button>
+                    <div className="d-flex flex-row gap-1 align-items-center mt-3">
+                      <div className="btn-group border" role="group">
+                        <button
+                          className="btn btn-light"
+                          onClick={() => downloadQRCode(qr.filePath)}
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Download This QR"
+                        >
+                          <i className="fa-solid fa-download fa-sm"></i>
+                        </button>
+                        <button
+                          className="btn btn-light"
+                          data-bs-toggle="modal"
+                          data-bs-target="#exampleModal"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Delete This QR"
+                          onClick={() =>
+                            setQr({
+                              id: qr.uid,
+                              name: extractDomainName(qr.longUrl),
+                              path: qr.filePath,
+                            })
+                          }
+                        >
+                          <i className="fa-solid fa-trash fa-sm"></i>
+                        </button>
+                        <button
+                          className="btn btn-light"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title="Share This QR"
+                          onClick={() =>
+                            setShareQrId(shareQrId === qr.uid ? null : qr.uid)
+                          }
+                        >
+                          <i
+                            className={`fa-solid ${
+                              shareQrId === qr.uid
+                                ? "fa-square-share-nodes"
+                                : "fa-share-nodes"
+                            } `}
+                          ></i>
+                        </button>
+                      </div>
+                      {shareQrId === qr.uid && (
+                        <Share prop={{ uid: qr.uid, ep: "qr" }} />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -201,19 +222,19 @@ const Qrs = (props) => {
         )}
       </div>
       <div
-        class="modal fade"
+        className="modal fade"
         id="exampleModal"
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-body">{`Are you sure you want to delete ${qr.name}-${qr.id}`}</div>
-            <div class="modal-footer">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-body">{`Are you sure you want to delete ${qr.name}-${qr.id}`}</div>
+            <div className="modal-footer">
               <button
                 type="button"
-                class="btn btn-secondary btn-sm"
+                className="btn btn-secondary btn-sm"
                 data-bs-dismiss="modal"
                 ref={ref}
               >
@@ -221,7 +242,7 @@ const Qrs = (props) => {
               </button>
               <button
                 type="button"
-                class="btn btn-danger btn-sm"
+                className="btn btn-danger btn-sm"
                 onClick={handleDelete}
                 disabled={deloader}
               >

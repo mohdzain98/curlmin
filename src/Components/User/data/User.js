@@ -168,32 +168,47 @@ const User = (props) => {
 
               {/* Dashboard Cards */}
               {activeTab === "dashboard" && (
-                <div className="row">
-                  {dbdata.map((element) => {
-                    return (
-                      <div className="col-md-3">
-                        <Link
-                          style={{ textDecoration: "none", color: "black" }}
-                          to={`/urls?${element.name}`}
-                        >
-                          <div
-                            className="card mb-4 shadow-sm"
-                            onClick={() => setActiveTab(element.name)}
+                <>
+                  <div className="row">
+                    {dbdata.map((element) => {
+                      return (
+                        <div className="col-md-3">
+                          <Link
+                            style={{ textDecoration: "none", color: "black" }}
+                            to={`/urls?${element.name}`}
                           >
-                            <div className="card-body">
-                              <h5 className="card-title">
-                                Total{" "}
-                                {element.name.charAt(0).toUpperCase() +
-                                  element.name.slice(1)}
-                              </h5>
-                              <h2 className="card-text">{element.count}</h2>
+                            <div
+                              className="card mb-4 shadow-sm"
+                              onClick={() => setActiveTab(element.name)}
+                            >
+                              <div className="card-body">
+                                <h5 className="card-title">
+                                  Total{" "}
+                                  {element.name.charAt(0).toUpperCase() +
+                                    element.name.slice(1)}
+                                </h5>
+                                <h2 className="card-text">{element.count}</h2>
+                              </div>
                             </div>
-                          </div>
-                        </Link>
-                      </div>
-                    );
-                  })}
-                </div>
+                          </Link>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="d-flex justify-content-center aligh-items-center mb-4">
+                    <div
+                      className="alert alert-success text-center"
+                      role="alert"
+                      style={{ width: "70%" }}
+                    >
+                      <i className="fa-solid fa-certificate me-2"></i>
+                      Now You can share your QR, Barcodes and curltags with
+                      short URLs
+                      {/* <span className="badge bg-success ms-2 px-3">New</span> */}
+                      <i className="fa-solid fa-certificate ms-2"></i>
+                    </div>
+                  </div>
+                </>
               )}
               {activeTab === "urls" && <Urls prop={{ showAlert }} />}
               {activeTab === "qrcodes" && <Qrs prop={{ showAlert }} />}

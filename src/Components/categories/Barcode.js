@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import "./Styling/qr.css";
 import { userContext } from "../../Context/userContext";
 import { Link } from "react-router-dom";
+import Share from "../User/data/Share";
 
 const Barcode = (props) => {
   const { host, showAlert } = props.prop;
@@ -12,6 +13,7 @@ const Barcode = (props) => {
   const [bc, setBc] = useState(false);
   const [opval, setOpval] = useState(2);
   const [respUid, setResUid] = useState("");
+  const [share, setShare] = useState(false);
   const context = useContext(userContext);
   const [isLoading, setIsLoading] = useState(false);
   const { userIdRef, saveBarcode, isValidUrl } = context;
@@ -139,44 +141,6 @@ const Barcode = (props) => {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
               />
-              {/* <div className="d-flex justify-content-center mt-4 gap-3 flex-row flex-wrap">
-                <div className="type">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      value={opval}
-                      onChange={() => setOpval(1)}
-                      checked={opval === 1 ? true : false}
-                    />
-                    <label class="form-check-label" for="exampleRadios1">
-                      Normal Barcode
-                    </label>
-                    <p className="text-muted lh-sm">
-                      Normal Barcodes are longer and contain short url for any
-                      long url
-                    </p>
-                  </div>
-                </div>
-                <div className="type">
-                  <div class="form-check">
-                    <input
-                      class="form-check-input"
-                      type="radio"
-                      value={opval}
-                      onChange={() => setOpval(2)}
-                      checked={opval === 2 ? true : false}
-                    />
-                    <label class="form-check-label" for="exampleRadios2">
-                      Sigma Barcode
-                    </label>
-                    <p className="text-muted lh-sm">
-                      Sigma Barcode are small, only contain uid but can only be
-                      opened using sigma scanner
-                    </p>
-                  </div>
-                </div>
-              </div> */}
             </form>
 
             <div className="text-center">
@@ -202,29 +166,41 @@ const Barcode = (props) => {
                   )}
                 </button>
               ) : (
-                <button className="btn btn-secondary px-5" onClick={handleBc}>
-                  <i className="fa-solid fa-barcode me-2"></i>
-                  Generate Another
-                </button>
+                <div>
+                  <button className="btn btn-secondary px-5" onClick={handleBc}>
+                    <i className="fa-solid fa-barcode me-2"></i>
+                    Generate Another
+                  </button>
+                </div>
               )}
             </div>
 
             {/* Barcode Result */}
             {barcode && (
-              <div className="text-center mt-4">
+              <div className="d-flex flex-column gap-2 mt-4">
                 <div
                   className="text-center p-2"
                   style={{ border: "solid 1px" }}
                 >
                   <canvas ref={barcodeRef} className="img-fluid"></canvas>
                 </div>
-                <div className="py-2">
-                  <button
-                    className="btn btn-outline-primary"
-                    onClick={downloadBarcode}
-                  >
-                    Download Barcode
-                  </button>
+                <div className="mt-3 mb-1 d-flex flex-column justify-content-center align-items-center">
+                  <div className="d-flex flex-row gap-2">
+                    <button
+                      className="btn btn-outline-primary"
+                      onClick={downloadBarcode}
+                    >
+                      Download Barcode
+                    </button>
+                    <button
+                      className="btn btn-outline-success"
+                      style={{ width: "100px" }}
+                      onClick={() => setShare(!share)}
+                    >
+                      <i className="fa-solid fa-share-nodes"></i>
+                    </button>
+                    {share && <Share prop={{ uid: respUid, ep: "bc" }} />}
+                  </div>
                   {!localStorage.getItem("token") && (
                     <p className="mt-2 text-muted" style={{ fontSize: "14px" }}>
                       <Link to={`/login?s=barcode&id=${respUid}`}>Login</Link>{" "}

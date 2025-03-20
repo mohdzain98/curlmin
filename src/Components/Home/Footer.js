@@ -59,11 +59,16 @@ const Footer = () => {
                       Barcode Scanner
                     </Link>
                   </li>
-                  {/* <li>
-                    <Link to="/" className="text-decoration-none">
-                      Pricing
+                  <li>
+                    <Link
+                      to="https://chromewebstore.google.com/detail/curlmin/nfgjgdpidaejbpnohadipbbikljiebbc"
+                      className=" text-decoration-none"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      Chrome Extension
                     </Link>
-                  </li> */}
+                  </li>
                 </ul>
               </div>
               <div className="col-md-2">
@@ -205,17 +210,22 @@ const Footer = () => {
                             Services
                           </ScrollLink>
                         </li>
-                        {/* <li>
-                          <Link to="/" className=" text-decoration-none">
-                            Pricing
-                          </Link>
-                        </li> */}
                         <li>
                           <Link
                             to="barcode-scanner"
                             className=" text-decoration-none"
                           >
                             Barcode scanner
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="https://chromewebstore.google.com/detail/curlmin/nfgjgdpidaejbpnohadipbbikljiebbc"
+                            className=" text-decoration-none"
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            Chrome Extension
                           </Link>
                         </li>
                       </ul>

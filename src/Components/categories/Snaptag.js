@@ -4,6 +4,7 @@ import "./Styling/qr.css";
 import { useMediaQuery } from "react-responsive";
 import { userContext } from "../../Context/userContext";
 import { Link } from "react-router-dom";
+import Share from "../User/data/Share";
 
 const Snaptag = (props) => {
   const { host, showAlert } = props.prop;
@@ -13,6 +14,7 @@ const Snaptag = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [respUid, setResUid] = useState("");
+  const [share, setShare] = useState(false);
   const context = useContext(userContext);
   const { userIdRef, saveSigmatag, isValidUrl } = context;
   const userId = userIdRef.current === "" ? "default" : userIdRef.current;
@@ -254,13 +256,23 @@ const Snaptag = (props) => {
                     className="img-fluid mb-3"
                     style={{ maxWidth: "300px" }}
                   />
-                  <div>
-                    <button
-                      className="btn btn-success"
-                      onClick={downloadSnaptag}
-                    >
-                      Download Curltag
-                    </button>
+                  <div className="mt-3 mb-1 d-flex flex-column justify-content-center align-items-center">
+                    <div className="d-flex flex-row align-items-center gap-2">
+                      <button
+                        className="btn btn-outline-primary"
+                        onClick={downloadSnaptag}
+                      >
+                        Download Curltag
+                      </button>
+                      <button
+                        className="btn btn-outline-success"
+                        style={{ width: "100px" }}
+                        onClick={() => setShare(!share)}
+                      >
+                        <i className="fa-solid fa-share-nodes"></i>
+                      </button>
+                      {share && <Share prop={{ uid: respUid, ep: "ct" }} />}
+                    </div>
                     {!localStorage.getItem("token") && (
                       <p
                         className="mt-2 text-muted"
