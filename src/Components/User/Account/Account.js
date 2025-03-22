@@ -28,7 +28,7 @@ const Account = (props) => {
   }, [user.name]);
 
   useEffect(() => {
-    document.title = "curlmin | user account";
+    document.title = "User Account | Curlmin";
     const token = localStorage.getItem("token");
     // const storedUserId = localStorage.getItem("curlmin-userId");
     if (!token) {

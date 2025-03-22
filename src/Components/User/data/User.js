@@ -22,7 +22,7 @@ const User = (props) => {
   const userId = userIdRef.current;
 
   useEffect(() => {
-    document.title = "curlmin | user data";
+    document.title = "User Data | Curlmin";
     const token = localStorage.getItem("token");
     const storedUserId = localStorage.getItem("curlmin-userId");
     if (!token) {
