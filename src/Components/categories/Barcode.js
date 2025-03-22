@@ -20,7 +20,7 @@ const Barcode = (props) => {
   const userId = userIdRef.current === "" ? "default" : userIdRef.current;
 
   useEffect(() => {
-    document.title = "curlmin | Barcodes";
+    document.title = "Barcodes | Curlmin";
   }, []);
 
   useEffect(() => {
@@ -192,14 +192,28 @@ const Barcode = (props) => {
                     >
                       Download Barcode
                     </button>
-                    <button
-                      className="btn btn-outline-success"
-                      style={{ width: "100px" }}
-                      onClick={() => setShare(!share)}
-                    >
-                      <i className="fa-solid fa-share-nodes"></i>
-                    </button>
-                    {share && <Share prop={{ uid: respUid, ep: "bc" }} />}
+                    <div class="dropdown">
+                      <button
+                        className="btn btn-outline-success dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        style={{ width: "100px" }}
+                        onClick={() => setShare(!share)}
+                      >
+                        <i className="fa-solid fa-share-nodes"></i>
+                      </button>
+                      <ul class="dropdown-menu px-2">
+                        <Share
+                          prop={{
+                            uid: respUid,
+                            ep: "bc",
+                            showAlert,
+                            page: "share",
+                          }}
+                        />
+                      </ul>
+                    </div>
                   </div>
                   {!localStorage.getItem("token") && (
                     <p className="mt-2 text-muted" style={{ fontSize: "14px" }}>

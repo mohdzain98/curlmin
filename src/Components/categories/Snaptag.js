@@ -21,7 +21,7 @@ const Snaptag = (props) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
 
   useEffect(() => {
-    document.title = "curlmin | Curltags";
+    document.title = "Curltags | Curlmin";
   }, []);
 
   const resizeImage = (file) => {
@@ -264,14 +264,28 @@ const Snaptag = (props) => {
                       >
                         Download Curltag
                       </button>
-                      <button
-                        className="btn btn-outline-success"
-                        style={{ width: "100px" }}
-                        onClick={() => setShare(!share)}
-                      >
-                        <i className="fa-solid fa-share-nodes"></i>
-                      </button>
-                      {share && <Share prop={{ uid: respUid, ep: "ct" }} />}
+                      <div class="dropdown">
+                        <button
+                          className="btn btn-outline-success dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          style={{ width: "100px" }}
+                          onClick={() => setShare(!share)}
+                        >
+                          <i className="fa-solid fa-share-nodes"></i>
+                        </button>
+                        <ul class="dropdown-menu px-2">
+                          <Share
+                            prop={{
+                              uid: respUid,
+                              ep: "ct",
+                              showAlert,
+                              page: "share",
+                            }}
+                          />
+                        </ul>
+                      </div>
                     </div>
                     {!localStorage.getItem("token") && (
                       <p
