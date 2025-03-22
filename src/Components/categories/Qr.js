@@ -23,7 +23,7 @@ const Qr = (props) => {
   const userId = userIdRef.current === "" ? "default" : userIdRef.current;
 
   useEffect(() => {
-    document.title = "curlmin | QR codes";
+    document.title = "QR codes | Curlmin";
   }, []);
 
   useEffect(() => {
@@ -91,7 +91,7 @@ const Qr = (props) => {
         const data = await response.json();
         setQrCode(data.qrCode);
         showAlert(data.msg, "success");
-        setResUid(data.uid);
+        setResUid(data.nuid);
         setQr(true);
       }
     } catch (err) {
@@ -121,8 +121,8 @@ const Qr = (props) => {
     setIsLoading(false);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    console.log("handleSubmit called");
     if (!qr) {
       await generateQRCode();
     } else {
@@ -193,7 +193,7 @@ const Qr = (props) => {
                   </label>
                 </div>
 
-                <form className="form-group" onSubmit={handleSubmit}>
+                <form className="form-group">
                   {isUrl ? (
                     <input
                       type="url"
@@ -231,8 +231,9 @@ const Qr = (props) => {
                   <div className="text-center mt-4">
                     {!qr ? (
                       <button
-                        type="submit"
+                        type="button"
                         className="btn btn-success px-5"
+                        onClick={handleSubmit}
                         disabled={isLoading}
                       >
                         <i className="fa-solid fa-qrcode me-2"></i>
@@ -250,7 +251,11 @@ const Qr = (props) => {
                         )}
                       </button>
                     ) : (
-                      <button type="submit" className="btn btn-secondary px-5">
+                      <button
+                        type="button"
+                        className="btn btn-secondary px-5"
+                        onClick={handleSubmit}
+                      >
                         <i className="fa-solid fa-qrcode me-2"></i>
                         Generate Another
                       </button>
@@ -268,14 +273,28 @@ const Qr = (props) => {
                       >
                         Download QR Code
                       </button>
-                      <button
-                        className="btn btn-outline-success"
-                        style={{ width: "100px" }}
-                        onClick={() => setShare(!share)}
-                      >
-                        <i className="fa-solid fa-share-nodes"></i>
-                      </button>
-                      {share && <Share prop={{ uid: respUid, ep: "qr" }} />}
+                      <div class="dropdown">
+                        <button
+                          className="btn btn-outline-success dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                          style={{ width: "100px" }}
+                          onClick={() => setShare(!share)}
+                        >
+                          <i className="fa-solid fa-share-nodes"></i>
+                        </button>
+                        <ul class="dropdown-menu px-2">
+                          <Share
+                            prop={{
+                              uid: respUid,
+                              ep: "qr",
+                              showAlert,
+                              page: "share",
+                            }}
+                          />
+                        </ul>
+                      </div>
                     </div>
                     {!localStorage.getItem("token") && (
                       <p
