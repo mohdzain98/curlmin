@@ -8,8 +8,8 @@ import {
 } from "../../Home/Share";
 
 const Share = (props) => {
-  const { uid, ep } = props.prop;
-  const surl = `https://curlm.in/${uid}`;
+  const { uid, ep, showAlert, page = "user" } = props.prop;
+  // const surl = `https://curlm.in/${uid}`;
   const link =
     ep === ""
       ? `https://curlm.in/${uid}`
@@ -19,8 +19,12 @@ const Share = (props) => {
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text).then(() => {
       // Show Bootstrap Toast
-      const toast = new window.bootstrap.Toast(toastRef.current);
-      toast.show();
+      if (page === "user") {
+        const toast = new window.bootstrap.Toast(toastRef.current);
+        toast.show();
+      } else {
+        showAlert("Copied Successfully", "success");
+      }
     });
   };
   return (
@@ -46,7 +50,7 @@ const Share = (props) => {
           </button>
           <button
             className="btn btn-default btn-sm"
-            onClick={() => shareOnWhatsApp(surl)}
+            onClick={() => shareOnWhatsApp(link)}
           >
             <i
               className="fa-brands fa-whatsapp fa-sm"
@@ -55,7 +59,7 @@ const Share = (props) => {
           </button>
           <button
             className="btn btn-default btn-sm"
-            onClick={() => shareOnTwitter(surl)}
+            onClick={() => shareOnTwitter(link)}
           >
             <i
               className="fa-brands fa-x-twitter fa-sm"
@@ -64,7 +68,7 @@ const Share = (props) => {
           </button>
           <button
             className="btn btn-default btn-sm"
-            onClick={() => shareOnLinkedIn(surl)}
+            onClick={() => shareOnLinkedIn(link)}
           >
             <i
               className="fa-brands fa-linkedin fa-sm"
@@ -73,7 +77,7 @@ const Share = (props) => {
           </button>
           <button
             className="btn btn-default btn-sm"
-            onClick={() => shareOnEmail(surl)}
+            onClick={() => shareOnEmail(link)}
           >
             <i
               className="fa-solid fa-envelope fa-sm"
