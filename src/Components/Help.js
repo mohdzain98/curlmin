@@ -7,7 +7,7 @@ const Help = () => {
   const [select, setSelect] = useState("gs");
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   useEffect(() => {
-    document.title = "curlmin | help center";
+    document.title = "Help Center | Curlmin";
   }, []);
 
   return (

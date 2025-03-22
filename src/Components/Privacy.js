@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const Privacy = () => {
   useEffect(() => {
-    document.title = "curlmin | privacy policy";
+    document.title = "Privacy Policy | Curlmin";
   }, []);
   return (
     <div id="privacy">

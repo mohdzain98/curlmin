@@ -22,7 +22,7 @@ const Login = (props) => {
   const google_login = process.env.REACT_APP_GOOGLE_USER;
 
   useEffect(() => {
-    document.title = "curlmin | login";
+    document.title = "Login | Curlmin";
     if (localStorage.getItem("token")) {
       navigate("/");
     } else {

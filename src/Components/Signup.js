@@ -37,7 +37,7 @@ const Signup = (props) => {
   const google_signup = process.env.REACT_APP_GOOGLE_USER;
 
   useEffect(() => {
-    document.title = "curlmin | signup";
+    document.title = "Signup | Curlmin";
     if (localStorage.getItem("token")) {
       navigate("/");
     } else {

@@ -16,7 +16,7 @@ const Contactus = (props) => {
   const to = process.env.REACT_APP_TO;
 
   useEffect(() => {
-    document.title = "curlmin | contact us";
+    document.title = "Contact us | Curlmin";
   }, []);
 
   const handleSubmit = async (e) => {

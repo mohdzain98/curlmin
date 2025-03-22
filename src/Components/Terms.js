@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Terms = () => {
   useEffect(() => {
-    document.title = "curlmin | terms";
+    document.title = "Terms | Curlmin";
   }, []);
   return (
     <div id="terms">
