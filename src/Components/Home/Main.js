@@ -157,7 +157,7 @@ const Main = (props) => {
         backgroundColor: "#8EC5FC",
         backgroundImage: "linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)",
         padding: "7% 0",
-        height: "80vh",
+        height: `${isTabletOrMobile ? "84vh" : "80vh"}`,
       }}
     >
       <div className="container p-4">
