@@ -199,7 +199,7 @@ const Cts = (props) => {
           <div className="text-center">
             <p className="text-center">No Curltag Found.</p>
             <p className="text-muted" style={{ marginTop: "-1.5%" }}>
-              Start Creating Curltags <Link to="/sigmatag">Now</Link>
+              Start Creating Curltags <Link to="/curltag">Now</Link>
             </p>
           </div>
         )}
