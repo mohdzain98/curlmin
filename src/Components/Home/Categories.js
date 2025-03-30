@@ -26,13 +26,13 @@ const Categories = () => {
       href: "/curltag",
       desc: "Share with Curltag modern and stylish link solutions with background images",
     },
-    // {
-    //   title: "Images",
-    //   icon: "fa-image",
-    //   catic: "fa",
-    //   href: "/",
-    //   desc: "Transform your visual assets into links for creative storytelling.",
-    // },
+    {
+      title: "Images",
+      icon: "fa-image",
+      catic: "fa",
+      href: "/image",
+      desc: "Transform your visual assets into links for creative storytelling.",
+    },
   ];
 
   return (
@@ -46,7 +46,7 @@ const Categories = () => {
           {categories.map((category, idx) => (
             <div
               key={idx}
-              className="col-md-4 mb-4 cat"
+              className="col-md-3 mb-4 cat"
               onClick={() =>
                 category.href === "/"
                   ? window.scrollTo({ top: 0, behavior: "smooth" })

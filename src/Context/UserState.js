@@ -247,6 +247,42 @@ const UserState = (props) => {
     }
   };
 
+  const getSignedUrl = async (
+    userId,
+    fileType,
+    pass,
+    passval,
+    expiresIn,
+    isPermanent
+  ) => {
+    try {
+      const response = await fetch(
+        "http://localhost:5006/url/get-presigned-url",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId,
+            fileType,
+            pass,
+            passval,
+            expiresIn,
+            isPermanent,
+          }),
+        }
+      );
+      if (response.status === 500) {
+        showAlert("Server Error Occurred", "danger");
+        return false;
+      } else {
+        const data = await response.json();
+        return data;
+      }
+    } catch (error) {
+      showAlert("Some Error Occurred Accessing Server", "danger");
+    }
+  };
+
   const contact = async (subject, body, to) => {
     try {
       const response = await fetch(`${host}/mail/contact`, {
@@ -298,6 +334,7 @@ const UserState = (props) => {
       showAlert("There is Error Accessing Server", "danger");
     }
   };
+
   return (
     <div>
       <userContext.Provider
@@ -317,6 +354,7 @@ const UserState = (props) => {
           sendEmail,
           verifyEmail,
           updateUserId,
+          getSignedUrl,
         }}
       >
         {props.children}
