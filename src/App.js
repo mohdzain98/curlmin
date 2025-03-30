@@ -22,6 +22,7 @@ import User from "./Components/User/data/User";
 import Account from "./Components/User/Account/Account";
 import Terms from "./Components/Terms";
 import Cookiesc from "./Components/Cookies";
+import Image from "./Components/categories/Image";
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -97,6 +98,11 @@ function App() {
                 exact
                 path="/curltag"
                 element={<Snaptag prop={{ host, showAlert, login }} />}
+              ></Route>
+              <Route
+                exact
+                path="/image"
+                element={<Image prop={{ host, showAlert, login }} />}
               ></Route>
               <Route
                 exact
