@@ -6,8 +6,15 @@ const URL = require("../models/Url");
 const Subc = require("../models/Subc");
 const Sust = require("../models/Sust");
 const Cmqr = require("../models/Cmqr");
+const Image = require("../models/Images");
 const QRCode = require("qrcode");
 const bwipjs = require("bwip-js");
+const {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+} = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { loadImage } = require("canvas");
 const multer = require("multer");
 const { gsnap, gsnap2 } = require("../functions/Functions");
@@ -20,6 +27,18 @@ const nanoid = customAlphabet(
   6
 );
 const path = process.env.ASSETS_PATH;
+const BUCKET_NAME = "curlmin";
+const REGION = "ap-south-1";
+const ACCESS_KEY = "AKIAYHJANLURBP4RWMCN";
+const SECRET_ACCESS_KEY = "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";
+
+const s3Client = new S3Client({
+  region: REGION,
+  credentials: {
+    accessKeyId: ACCESS_KEY,
+    secretAccessKey: SECRET_ACCESS_KEY,
+  },
+});
 
 router.post("/createurl", async (req, res) => {
   const {
@@ -378,6 +397,42 @@ router.put("/updateuserid", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+router.post("/get-presigned-url", async (req, res) => {
+  try {
+    const { userId, fileType, pass, passval, expiresIn, isPermanent } =
+      req.body;
+
+    const imageId = nanoid(6);
+    const fileKey = `images/${imageId}.${fileType.split("/")[1]}`;
+
+    const putCommand = new PutObjectCommand({
+      Bucket: BUCKET_NAME,
+      Key: fileKey,
+      ContentType: fileType,
+    });
+
+    const uploadUrl = await getSignedUrl(s3Client, putCommand, {
+      expiresIn: 300,
+    });
+
+    // Save Image Info in DB
+    await Image.create({
+      image_id: imageId,
+      userId: userId,
+      file_key: fileKey,
+      pass: pass,
+      passval: passval,
+      expires_at: expiresIn,
+      isPermanent: isPermanent,
+    });
+
+    res.json({ imageId, uploadUrl });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error generating upload URL" });
   }
 });
 
