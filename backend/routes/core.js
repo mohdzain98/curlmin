@@ -29,8 +29,8 @@ const nanoid = customAlphabet(
 const path = process.env.ASSETS_PATH;
 const BUCKET_NAME = "curlmin";
 const REGION = "ap-south-1";
-const ACCESS_KEY = "AKIAYHJANLURBP4RWMCN";
-const SECRET_ACCESS_KEY = "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";
+const ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
 
 const s3Client = new S3Client({
   region: REGION,
