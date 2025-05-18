@@ -253,24 +253,23 @@ const UserState = (props) => {
     pass,
     passval,
     expiresIn,
-    isPermanent
+    isPermanent,
+    download
   ) => {
     try {
-      const response = await fetch(
-        "http://localhost:5006/url/get-presigned-url",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            userId,
-            fileType,
-            pass,
-            passval,
-            expiresIn,
-            isPermanent,
-          }),
-        }
-      );
+      const response = await fetch(`${host}/url/get-presigned-url`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId,
+          fileType,
+          pass,
+          passval,
+          expiresIn,
+          isPermanent,
+          download,
+        }),
+      });
       if (response.status === 500) {
         showAlert("Server Error Occurred", "danger");
         return false;
