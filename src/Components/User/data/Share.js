@@ -13,6 +13,8 @@ const Share = (props) => {
   const link =
     ep === ""
       ? `https://curlm.in/${uid}`
+      : ep === "img"
+      ? `https://curlm.in/${ep}/${uid}`
       : `https://curlm.in/${ep}/${uid.slice(2)}`;
   const toastRef = useRef(null);
 
