@@ -25,6 +25,6 @@ jobs:
           port: 22
           script: |
             cd curlmin/curlmin
-            git pull origin staging
+            git pull origin main
             git status
             npm install
