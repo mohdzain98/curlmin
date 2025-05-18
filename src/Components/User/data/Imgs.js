@@ -18,7 +18,6 @@ const Imgs = (props) => {
     fetchImages,
     fetchCounts,
     loading,
-    formatDateTime,
     formatExpiry,
     formatCurrent,
   } = accontext;
@@ -171,7 +170,7 @@ const Imgs = (props) => {
                       className="text-muted flex-grow-1"
                       style={{ fontSize: "12px" }}
                     >
-                      {formatDateTime(img.createdAt)}
+                      {formatCurrent(img.createdAt)}
                     </small>
                     <span
                       className="badge text-success pb-1"
