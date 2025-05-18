@@ -15,12 +15,14 @@ const Image = (props) => {
   const [pass, setPass] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  // const [download, setDownload] = useState(true);
+
   const [passval, setPassval] = useState("");
   const [expiry, setExpiry] = useState("9998-12-31 23:59:59");
+  const [per, setPer] = useState(true);
   const context = useContext(userContext);
   const { userIdRef, getSignedUrl } = context;
   const userId = userIdRef.current === "" ? "default" : userIdRef.current;
-
   // Handle file selection
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -34,22 +36,24 @@ const Image = (props) => {
   };
 
   const handleSubmit = async () => {
+    const download = true;
     if (!uploadedImage.img) {
       showAlert("Upload Image", "info");
       return;
     }
     setIsLoading(true);
     const fileType = uploadedImage.type;
-    const isPermanent = true;
+    const isPermanent = per;
     const data = await getSignedUrl(
       userId,
       fileType,
       pass,
       passval,
       expiry,
-      isPermanent
+      isPermanent,
+      download
     );
-    console.log(data);
+    // setIsLoading(false);
     if (!data.uploadUrl) {
       showAlert("Some Failure Occurred, try again", "info");
       setIsLoading(false);
@@ -210,28 +214,50 @@ const Image = (props) => {
                         type="datetime-local"
                         id="datetime"
                         className="ms-3"
-                        onChange={(e) => setExpiry(e.target.value)}
+                        onChange={(e) => {
+                          setExpiry(e.target.value);
+                          setPer(false);
+                        }}
                       />
                     </div>
-                    <div className="d-flex align-items-center mb-1 mx-2">
-                      <label
-                        className="form-check-label me-2"
-                        htmlFor="passwordToggle"
-                      >
-                        <i className="fas fa-lock fa-sm text-success me-2"></i>{" "}
-                        Set Password
-                      </label>
-                      <input
-                        type="checkbox"
-                        className="form-check-input"
-                        id="passwordToggle"
-                        onChange={() => {
-                          setPass(!pass);
-                          setIsChecked(!isChecked);
-                        }}
-                        // disabled={surl ? true : false}
-                        checked={isChecked}
-                      />
+                    <div className="d-flex justify-content-between align-items-center flex-wrap mb-1 mx-2">
+                      <div>
+                        <label
+                          className="form-check-label me-4"
+                          htmlFor="passwordToggle"
+                        >
+                          <i className="fas fa-lock fa-sm text-success me-2"></i>{" "}
+                          Set Password
+                        </label>
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="passwordToggle"
+                          onChange={() => {
+                            setPass(!pass);
+                            setIsChecked(!isChecked);
+                          }}
+                          // disabled={surl ? true : false}
+                          checked={isChecked}
+                        />
+                      </div>
+                      {/* <div>
+                        <label
+                          className="form-check-label me-4"
+                          htmlFor="passwordToggle"
+                        >
+                          <i className="fas fa-download fa-sm text-success me-2"></i>{" "}
+                          Enable Download
+                        </label>
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id="downloadToggle"
+                          onChange={() => setDownload(!download)}
+                          // disabled={surl ? true : false}
+                          checked={download}
+                        />
+                      </div> */}
                     </div>
                     {pass && (
                       <div

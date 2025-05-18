@@ -107,7 +107,8 @@ const Navbar = (props) => {
                 className={`nav-link dropdown-toggle ${
                   location.pathname === "/qrcode" ||
                   location.pathname === "/barcode" ||
-                  location.pathname === "/curltag"
+                  location.pathname === "/curltag" ||
+                  location.pathname === "/image"
                     ? "active"
                     : ""
                 }`}
@@ -151,6 +152,16 @@ const Navbar = (props) => {
                     }}
                   >
                     Curltag
+                  </Link>
+                  <Link
+                    className="dropdown-item"
+                    to="/image"
+                    onClick={() => {
+                      rollNavBack();
+                      handleService();
+                    }}
+                  >
+                    Image
                   </Link>
                 </li>
               </ul>

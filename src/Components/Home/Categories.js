@@ -11,6 +11,7 @@ const Categories = () => {
       catic: "fa",
       href: "/qrcode",
       desc: "Turn your long URLs or UPI ids with or without fixed amount into QR codes effortlessly for instant sharing. ",
+      new: false,
     },
     {
       title: "Barcode",
@@ -18,6 +19,7 @@ const Categories = () => {
       catic: "fa",
       href: "/barcode",
       desc: "Simplify your long URLs with sleek barcodes for universal compatibility.",
+      new: false,
     },
     {
       title: "Curltag",
@@ -25,6 +27,7 @@ const Categories = () => {
       catic: "im",
       href: "/curltag",
       desc: "Share with Curltag modern and stylish link solutions with background images",
+      new: false,
     },
     {
       title: "Images",
@@ -32,6 +35,7 @@ const Categories = () => {
       catic: "fa",
       href: "/image",
       desc: "Transform your visual assets into links for creative storytelling.",
+      new: true,
     },
   ];
 
@@ -40,7 +44,7 @@ const Categories = () => {
       <div className="container my-5">
         <h2 className="text-center fw-bold mb-2">More then just URL</h2>
         <p className="text-center text-muted fw-bold mb-5">
-          Share your QRs, Barcodes and Curltags with shorts URLs
+          Share your QRs, Barcodes, Curltags and Images with shorts URLs
         </p>
         <div className="row">
           {categories.map((category, idx) => (
@@ -53,7 +57,15 @@ const Categories = () => {
                   : navigate(category.href)
               }
             >
-              <div className="card category-card text-center shadow-sm h-100">
+              <div className="card category-card text-center shadow-sm h-100 ">
+                {category.new && (
+                  <span
+                    className="badge bg-danger position-absolute top-0 end-0 m-2"
+                    style={{ zIndex: 1 }}
+                  >
+                    NEW
+                  </span>
+                )}
                 <div className="card-body">
                   {category.catic === "fa" ? (
                     <i
