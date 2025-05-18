@@ -6,9 +6,10 @@ import Urls from "./Urls.js";
 import Qrs from "./Qrs.js";
 import Cts from "./Cts.js";
 import Bcs from "./Bcs.js";
+import Imgs from "./Imgs.js";
 
 const User = (props) => {
-  const { showAlert } = props.prop;
+  const { showAlert, host } = props.prop;
   const [activeTab, setActiveTab] = useState("dashboard");
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const User = (props) => {
       const isQR = searchParams.has("qrcodes");
       const isBc = searchParams.has("barcodes");
       const isCt = searchParams.has("curltags");
+      const isIm = searchParams.has("images");
       const tab = isDashboard
         ? "dashboard"
         : isUrl
@@ -44,6 +46,8 @@ const User = (props) => {
         ? "barcodes"
         : isCt
         ? "curltags"
+        : isIm
+        ? "images"
         : "unknown";
       setActiveTab(tab);
       userIdRef.current = storedUserId;
@@ -137,6 +141,17 @@ const User = (props) => {
                       Curltag
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    <Link
+                      to={"/urls?images"}
+                      className={`nav-link ${
+                        activeTab === "images" ? "active" : ""
+                      }`}
+                      onClick={() => setActiveTab("images")}
+                    >
+                      Images
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </nav>
@@ -153,6 +168,7 @@ const User = (props) => {
                 <option value="qrcodes">Qr codes</option>
                 <option value="barcodes">Barcodes</option>
                 <option value="curltags">Curltag</option>
+                <option value="images">Images</option>
               </select>
             </div>
           )}
@@ -214,6 +230,7 @@ const User = (props) => {
               {activeTab === "qrcodes" && <Qrs prop={{ showAlert }} />}
               {activeTab === "curltags" && <Cts prop={{ showAlert }} />}
               {activeTab === "barcodes" && <Bcs prop={{ showAlert }} />}
+              {activeTab === "images" && <Imgs prop={{ showAlert, host }} />}
             </div>
           </main>
         </div>
