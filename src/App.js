@@ -125,7 +125,7 @@ function App() {
               <Route
                 exact
                 path="/urls"
-                element={<User prop={{ showAlert }} />}
+                element={<User prop={{ showAlert, host }} />}
               ></Route>
               <Route
                 exact
