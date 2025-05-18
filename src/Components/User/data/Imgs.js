@@ -13,13 +13,21 @@ const Imgs = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const context = useContext(userContext);
   const accontext = useContext(userAccContext);
-  const { images, fetchImages, fetchCounts, loading, formatDateTime } =
-    accontext;
+  const {
+    images,
+    fetchImages,
+    fetchCounts,
+    loading,
+    formatDateTime,
+    formatExpiry,
+    formatCurrent,
+  } = accontext;
   const { userIdRef } = context;
   const userId = userIdRef.current;
   const [deloader, setDeloader] = useState(false);
   const ref = useRef();
   const toastRef = useRef(null);
+  const currentDateTime = new Date();
 
   useEffect(() => {
     // setLoading(true);
@@ -171,9 +179,11 @@ const Imgs = (props) => {
                         backgroundColor: img.isPermanent
                           ? "#d1f2eb" // Light Green for Permanent
                           : (() => {
-                              const expiryDateTime = new Date(img.expires_at);
-                              const currentDateTime = new Date();
-                              const timeDiff = expiryDateTime - currentDateTime;
+                              const expiryDateTime = formatExpiry(
+                                img.expires_at
+                              );
+                              const timeDiff =
+                                expiryDateTime - formatCurrent(currentDateTime);
                               const hoursRemaining = Math.floor(
                                 timeDiff / (1000 * 60 * 60)
                               );
@@ -192,9 +202,9 @@ const Imgs = (props) => {
                       {img.isPermanent
                         ? "Permanent"
                         : (() => {
-                            const expiryDateTime = new Date(img.expires_at);
-                            const currentDateTime = new Date();
-                            const timeDiff = expiryDateTime - currentDateTime;
+                            const expiryDateTime = formatExpiry(img.expires_at);
+                            const timeDiff =
+                              expiryDateTime - formatCurrent(currentDateTime);
                             const hoursRemaining = Math.floor(
                               timeDiff / (1000 * 60 * 60)
                             );
