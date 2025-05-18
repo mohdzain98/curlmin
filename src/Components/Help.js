@@ -82,12 +82,12 @@ const Help = () => {
                   >
                     Curltag
                   </Link>
-                  {/* <Link
-                    className={`nav-link ${select === "acs" ? "active" : ""}`}
-                    onClick={() => setSelect("acs")}
+                  <Link
+                    className={`nav-link ${select === "img" ? "active" : ""}`}
+                    onClick={() => setSelect("img")}
                   >
-                    Account and Setting
-                  </Link> */}
+                    Images
+                  </Link>
                 </nav>
               </div>
             ) : (
@@ -102,7 +102,7 @@ const Help = () => {
                 <option value="qr">Qr codes</option>
                 <option value="bc">Barcodes and Barcode Scanner</option>
                 <option value="st">Curltag</option>
-                {/* <option value="acs">Account and Setting</option> */}
+                <option value="img">Images</option>
               </select>
             )}
           </div>
@@ -229,27 +229,49 @@ const Help = () => {
                 </div>
               </div>
             )}
-            {select === "acs" && (
-              <div className="card mt-4">
+            {select === "img" && (
+              <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">Manage Your Account</h5>
+                  <h5 className="card-title">Images</h5>
                   <h6 className="card-subtitle mb-2 text-muted">
-                    Customize your Curlmin experience in the Account and
-                    Settings section.
+                    Transform your images into links
                   </h6>
                   <ul>
                     <li>
-                      Account Details: Update your profile, manage passwords,
-                      and view usage statistics
+                      <span className="fw-bold">Easy to Share : </span> Share
+                      long image URLs as short, clean links — perfect for
+                      messaging apps, emails, and social media.
                     </li>
                     <li>
-                      Settings: Personalize features like default URL expiry,
-                      link privacy, and notification preferences.
+                      <span className="fw-bold">Quick Access : </span>{" "}
+                      Recipients can open images instantly without downloading
+                      large files or attachments.
                     </li>
                     <li>
-                      Analytics: Gain insights into your links’ performance with
-                      real-time data. Stay in control and make the most of
-                      Curlmin.
+                      <span className="fw-bold">Better Privacy : </span> Add
+                      password protection or expiry dates for private or
+                      time-sensitive images.
+                    </li>
+                    <li>
+                      <span className="fw-bold">Minimal Storage : </span> Use No
+                      need to attach or embed large image files — just share the
+                      link.
+                    </li>
+                    <li>
+                      <span className="fw-bold">Mobile-Friendly : </span> Short
+                      links are easier to open and share on mobile devices.
+                    </li>
+                    {/* <li>
+                      <span className="fw-bold">Control Access : </span> Deactivate or update links if
+                      needed — giving you control over who can view the image.
+                    </li> */}
+                    <li>
+                      <span>One Link,</span> Many Uses Use the same link across
+                      platforms like WhatsApp, Twitter, LinkedIn, etc.
+                    </li>
+                    <li>
+                      Save & Organize Keep a record of all your shared images in
+                      one place for future reference.
                     </li>
                   </ul>
                 </div>
