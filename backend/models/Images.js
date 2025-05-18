@@ -20,7 +20,7 @@ const Image = sequelize.define(
       allowNull: false,
     },
     pass: {
-      type: DataTypes.STRING,
+      type: DataTypes.BOOLEAN,
       allowNull: true,
     },
     passval: {
@@ -32,6 +32,10 @@ const Image = sequelize.define(
       allowNull: true,
     },
     isPermanent: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    download: {
       type: DataTypes.BOOLEAN,
       defaultValue: true,
     },

@@ -7,6 +7,7 @@ const UserCountsSchema = new Schema({
   qrCount: { type: Number, default: 0 },
   barcodeCount: { type: Number, default: 0 },
   curltagCount: { type: Number, default: 0 },
+  imageCount: { type: Number, default: 0 },
 });
 
 const UserCounts = mongoose.model("UserCounts", UserCountsSchema);

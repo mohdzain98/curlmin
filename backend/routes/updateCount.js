@@ -12,6 +12,8 @@ eventEmitter.on("updateCount", async ({ userId, type }) => {
         ? { barcodeCount: 1 }
         : type === "curltag"
         ? { curltagCount: 1 }
+        : type === "image"
+        ? { imageCount: 1 }
         : null;
 
     await UserCounts.updateOne(
@@ -37,6 +39,8 @@ eventEmitter.on("decrementCount", async ({ userId, type }) => {
         ? { barcodeCount: -1 }
         : type === "curltag"
         ? { curltagCount: -1 }
+        : type === "image"
+        ? { imageCount: -1 }
         : null;
 
     await UserCounts.updateOne({ userId }, { $inc: decrementField });

@@ -9,11 +9,7 @@ const Cmqr = require("../models/Cmqr");
 const Image = require("../models/Images");
 const QRCode = require("qrcode");
 const bwipjs = require("bwip-js");
-const {
-  S3Client,
-  PutObjectCommand,
-  GetObjectCommand,
-} = require("@aws-sdk/client-s3");
+const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { loadImage } = require("canvas");
 const multer = require("multer");
@@ -402,8 +398,15 @@ router.put("/updateuserid", async (req, res) => {
 
 router.post("/get-presigned-url", async (req, res) => {
   try {
-    const { userId, fileType, pass, passval, expiresIn, isPermanent } =
-      req.body;
+    const {
+      userId,
+      fileType,
+      pass,
+      passval,
+      expiresIn,
+      isPermanent,
+      download,
+    } = req.body;
 
     const imageId = nanoid(6);
     const fileKey = `images/${imageId}.${fileType.split("/")[1]}`;
@@ -427,8 +430,11 @@ router.post("/get-presigned-url", async (req, res) => {
       passval: passval,
       expires_at: expiresIn,
       isPermanent: isPermanent,
+      download: download,
     });
-
+    if (userId) {
+      eventEmitter.emit("updateCount", { userId, type: "image" });
+    }
     res.json({ imageId, uploadUrl });
   } catch (error) {
     console.error(error);

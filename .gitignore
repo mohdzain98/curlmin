@@ -10,8 +10,9 @@
 
 # production
 # /build
-
+extra.js
 /.vscode
+UserAssets/
 
 # misc
 .DS_Store

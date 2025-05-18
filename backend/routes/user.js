@@ -6,11 +6,30 @@ const Cmqr = require("../models/Cmqr");
 const Sust = require("../models/Sust");
 const Subc = require("../models/Subc");
 const User = require("../models/User");
+const Images = require("../models/Images");
 const UserCounts = require("../models/Urlcount");
 const eventEmitter = require("../eventEmitter");
 const bcrypt = require("bcryptjs");
 const { sequelize } = require("../mysql");
 const fpath = process.env.ASSETS_PATH;
+const {
+  S3Client,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const BUCKET_NAME = process.env.AWS_S3_BUCKET_NAME;
+const REGION = process.env.AWS_S3_REGION_NAME;
+const ACCESS_KEY = process.env.AWS_ACCESS_KEY;
+const SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
+
+const s3Client = new S3Client({
+  region: REGION,
+  credentials: {
+    accessKeyId: ACCESS_KEY,
+    secretAccessKey: SECRET_ACCESS_KEY,
+  },
+});
 
 const deleteFromFolder = async (filePath) => {
   if (fs.existsSync(filePath)) {
@@ -120,6 +139,45 @@ router.post("/getbarcodes", async (req, res) => {
   }
 });
 
+router.post("/getimages", async (req, res) => {
+  const { userId } = req.body;
+
+  if (!userId) {
+    return res.status(400).json({ success: false, msg: "User ID is required" });
+  }
+  try {
+    const images = await Images.findAll({ where: { userId } });
+    if (images) {
+      const signedImages = await Promise.all(
+        images.map(async (image) => {
+          const signedUrl = await getSignedUrl(
+            s3Client,
+            new GetObjectCommand({
+              Bucket: BUCKET_NAME,
+              Key: image.file_key,
+            }),
+            { expiresIn: 3600 }
+          ); // URL valid for 1 hour
+
+          return { imageKey: image.image_id, signedUrl };
+        })
+      );
+      const mergedImages = images.map((image) => ({
+        ...image.dataValues, // Extracts sequelize object values
+        signedUrl: signedImages.find((si) => si.imageKey === image.image_id)
+          ?.signedUrl,
+      }));
+
+      res.json({ success: true, images: mergedImages });
+    } else {
+      res.status(400).json({ success: false, msg: "You have no data to show" });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ success: false, msg: "Error fetching Images" });
+  }
+});
+
 router.delete("/deleteurl/:uid", async (req, res) => {
   const { uid } = req.params;
   const { userId } = req.body;
@@ -218,6 +276,39 @@ router.delete("/deletebc/:uid", async (req, res) => {
     res
       .status(200)
       .json({ success: true, msg: "Barcode deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting QR:", err);
+    res.status(500).json({ success: false, msg: "Internal server error" });
+  }
+});
+
+router.delete("/deleteimg/:uid", async (req, res) => {
+  const { uid } = req.params;
+  const { userId } = req.body;
+
+  try {
+    const img = await Images.findOne({ where: { image_id: uid } });
+    if (!img) {
+      return res.status(404).json({ success: false, msg: "Image not found" });
+    }
+    await Images.destroy({ where: { image_id: uid } });
+    if (userId) {
+      eventEmitter.emit("decrementCount", { userId, type: "image" });
+    }
+    const fileKey = img.file_key;
+
+    // Delete the file from S3
+    try {
+      await s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: BUCKET_NAME,
+          Key: fileKey,
+        })
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    res.status(200).json({ success: true, msg: "Image deleted successfully" });
   } catch (err) {
     console.error("Error deleting QR:", err);
     res.status(500).json({ success: false, msg: "Internal server error" });
