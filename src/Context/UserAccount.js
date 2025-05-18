@@ -7,17 +7,20 @@ const UserAccount = (props) => {
   const [qrcodes, setQRcodes] = useState([]);
   const [curltags, setCurltags] = useState([]);
   const [barcodes, setBarcodes] = useState([]);
+  const [images, setImages] = useState([]);
   const [loading, setLoading] = useState({
     url: true,
     qr: true,
     bc: true,
     ct: true,
+    im: true,
   });
   const [dbdata, setDbdata] = useState([
     { name: "urls", count: 0 },
     { name: "qrcodes", count: 0 },
     { name: "barcodes", count: 0 },
     { name: "curltags", count: 0 },
+    { name: "images", count: 0 },
   ]);
 
   const factoryReset = () => {
@@ -26,11 +29,59 @@ const UserAccount = (props) => {
       { name: "qrcodes", count: 0 },
       { name: "barcodes", count: 0 },
       { name: "curltags", count: 0 },
+      { name: "images", count: 0 },
     ]);
     setUrls([]);
     setQRcodes([]);
     setBarcodes([]);
     setCurltags([]);
+  };
+
+  const formatDateTime = (dateTime, flag) => {
+    const currentDate = new Date();
+    const givenDate = new Date(dateTime);
+
+    if (flag && givenDate < currentDate) {
+      return "Expired";
+    }
+    const options = {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      //   second: "2-digit",
+      hour12: false,
+      timeZone: "UTC", //prod
+    };
+    return givenDate.toLocaleString("en-US", options);
+  };
+
+  const formatExpiry = (date) => {
+    const dates = new Date(date);
+    const manual = dates.toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "UTC",
+    });
+    return manual;
+  };
+
+  const formatCurrent = (date) => {
+    const dates = new Date(date);
+    const manual = dates.toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+    return manual;
   };
 
   const fetchCounts = async (userId) => {
@@ -55,6 +106,7 @@ const UserAccount = (props) => {
             { name: "qrcodes", count: data.qrCount || 0 },
             { name: "barcodes", count: data.barcodeCount || 0 },
             { name: "curltags", count: data.curltagCount || 0 },
+            { name: "images", count: data.imageCount || 0 },
           ];
           setDbdata(updatedDbdata);
         } else {
@@ -64,6 +116,7 @@ const UserAccount = (props) => {
             { name: "qrcodes", count: 0 },
             { name: "barcodes", count: 0 },
             { name: "curltags", count: 0 },
+            { name: "images", count: 0 },
           ]);
         }
       }
@@ -180,6 +233,33 @@ const UserAccount = (props) => {
     }
   };
 
+  const fetchImages = async (userId) => {
+    try {
+      const res = await fetch(`${host}/user/getimages`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+        }),
+      });
+      if (res.status === 500) {
+        showAlert("some error occurred", "danger");
+      } else {
+        const reply = await res.json();
+        if (reply.success) {
+          setImages(reply.images);
+          setLoading((prev) => ({ ...prev, im: false }));
+        } else {
+          showAlert(reply.msg, "danger");
+        }
+      }
+    } catch (error) {
+      showAlert("An error occurred while fetching data", "danger");
+    }
+  };
+
   const getDelete = async (endpoint, uid, userId, path) => {
     try {
       const response = await fetch(`${host}/user/${endpoint}/${uid}`, {
@@ -246,6 +326,9 @@ const UserAccount = (props) => {
       <userAccContext.Provider
         value={{
           loading,
+          formatDateTime,
+          formatExpiry,
+          formatCurrent,
           dbdata,
           fetchCounts,
           urls,
@@ -257,6 +340,8 @@ const UserAccount = (props) => {
           fetchCurltags,
           barcodes,
           fetchBarcodes,
+          images,
+          fetchImages,
           checkPass,
           deleteUser,
           factoryReset,
