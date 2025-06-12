@@ -13,14 +13,8 @@ const Imgs = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const context = useContext(userContext);
   const accontext = useContext(userAccContext);
-  const {
-    images,
-    fetchImages,
-    fetchCounts,
-    loading,
-    formatExpiry,
-    formatCurrent,
-  } = accontext;
+  const { images, fetchImages, fetchCounts, loading, formatCurrent } =
+    accontext;
   const { userIdRef } = context;
   const userId = userIdRef.current;
   const [deloader, setDeloader] = useState(false);
@@ -178,13 +172,23 @@ const Imgs = (props) => {
                         backgroundColor: img.isPermanent
                           ? "#d1f2eb" // Light Green for Permanent
                           : (() => {
-                              const expiryDateTime = formatExpiry(
-                                img.expires_at
-                              );
+                              // const expiryDateTime = formatExpiry(
+                              //   img.expires_at
+                              // );
+                              const expiryDateTime = new Date(img.expires_at);
+                              // const current = formatCurrent(currentDateTime);
                               const timeDiff =
-                                expiryDateTime - formatCurrent(currentDateTime);
+                                expiryDateTime.getTime() -
+                                currentDateTime.getTime();
                               const hoursRemaining = Math.floor(
                                 timeDiff / (1000 * 60 * 60)
+                              );
+                              console.log(
+                                expiryDateTime,
+                                formatCurrent(currentDateTime),
+                                timeDiff,
+                                "hours:",
+                                hoursRemaining
                               );
 
                               if (hoursRemaining <= 0) {
@@ -201,9 +205,17 @@ const Imgs = (props) => {
                       {img.isPermanent
                         ? "Permanent"
                         : (() => {
-                            const expiryDateTime = formatExpiry(img.expires_at);
+                            // const expiryDateTime = formatExpiry(img.expires_at);
+                            // const timeDiff =
+                            //   expiryDateTime - formatCurrent(currentDateTime);
+                            // const hoursRemaining = Math.floor(
+                            //   timeDiff / (1000 * 60 * 60)
+                            // );
+                            const expiryDateTime = new Date(img.expires_at);
+                            // const current = formatCurrent(currentDateTime);
                             const timeDiff =
-                              expiryDateTime - formatCurrent(currentDateTime);
+                              expiryDateTime.getTime() -
+                              currentDateTime.getTime();
                             const hoursRemaining = Math.floor(
                               timeDiff / (1000 * 60 * 60)
                             );
